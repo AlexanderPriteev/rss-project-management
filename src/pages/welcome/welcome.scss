@@ -1,0 +1,41 @@
+.welcome{
+  width: 100%;
+  max-width: 122.2rem;
+  display: flex;
+  gap: 4rem;
+  margin: auto;
+  &-col{
+    &__about{
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      gap: 3.2rem;
+      width: 62.6rem;
+    }
+    &__image{
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+  }
+  &-title{
+    font-size: $headline-1;
+  }
+  &-about{
+    font-size: $headline-4;
+    line-height: 1.5;
+  }
+  &-next{
+    font-size: $headline-3;
+  }
+  &-image{
+    width: 100%;
+  }
+  &-copyright{
+    text-align: right;
+    font-size: $body-1;
+  }
+}

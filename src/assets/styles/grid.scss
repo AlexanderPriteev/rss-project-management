@@ -1,0 +1,17 @@
+html{
+  font-family: $font-primary;
+  font-weight: $f-normal;
+  color: $txt-black;
+  font-size: 10px;
+  scroll-behavior: smooth;
+}
+
+body{
+  background-color: $light-bg;
+}
+
+.page-wrapper{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}

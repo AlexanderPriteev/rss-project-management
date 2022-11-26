@@ -18,3 +18,16 @@
     color: $primary-600;
   }
 }
+
+.headline{
+  font-size: 4rem;
+  font-weight: $f-normal;
+  color: $primary-700;
+  width: 100%;
+  line-height: 1;
+  padding-bottom: 1.1rem;
+  border-bottom: .1rem solid $primary-800;
+  display: flex;
+  justify-content: space-between;
+  gap: 2.4rem;
+}

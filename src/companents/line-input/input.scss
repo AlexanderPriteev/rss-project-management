@@ -1,0 +1,54 @@
+.line-input {
+  display: flex;
+  gap: 1.2rem;
+  color: $txt-black;
+  align-items: flex-start;
+  line-height: 1;
+  width: 100%;
+  position: relative;
+
+  &-label {
+    font-size: 2.4rem;
+    display: inline-block;
+    font-weight: $f-bold;
+    white-space: nowrap;
+  }
+
+  &__field {
+    font-size: 2.4rem;
+    display: block;
+    width: 100%;
+    outline: none;
+    border: none;
+    border-bottom: .1rem solid $primary-700;
+    box-sizing: border-box;
+    padding: 0 9rem .6rem 0;
+
+    &:read-only {
+      border-color: transparent;
+    }
+
+    &-wrapper {
+      flex-grow: 1;
+    }
+  }
+
+  &__btn {
+    width: 2.8rem;
+    height: 2.8rem;
+    font-size: 2.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &-list {
+      position: absolute;
+      right: 0;
+      top: 0;
+      display: inline-flex;
+      gap: 2rem;
+    }
+  }
+}

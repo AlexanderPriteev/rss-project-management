@@ -21,3 +21,26 @@
 .underline{
   text-decoration: underline;
 }
+.c{
+  &-red{
+    color: $c-alert;
+  }
+  &-green{
+    color: $c-success;
+  }
+  &-primary{
+    color: $primary-700;
+  }
+}
+
+.bg{
+  &-primary{
+    background-color: $primary-700;
+  }
+  &-red{
+    background-color: $c-alert;
+  }
+  &-green{
+    background-color: $c-success;
+  }
+}

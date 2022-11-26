@@ -2,9 +2,10 @@ import React from 'react';
 import './style.scss';
 import { Header } from './companents/hedear';
 import { Footer } from './companents/footer';
+import { Profile } from './pages/profile';
 // import { Welcome } from './pages/welcome';
 // import { Login } from './pages/auth/login';
-import { SignUp } from './pages/auth/sign-up';
+// import { SignUp } from './pages/auth/sign-up';
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
       <main className="content">
         {/*<Welcome />*/}
         {/*<Login />*/}
-        <SignUp />
+        {/*<SignUp />*/}
+        <Profile />
       </main>
       <Footer />
     </>

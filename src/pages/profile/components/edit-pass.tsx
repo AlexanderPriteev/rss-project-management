@@ -21,6 +21,7 @@ export const EditPassword = function () {
             type={'password'}
             defValue={newPass}
             setValue={setNewPass}
+            isString={false}
             wrapperStyles={'profile-pass-field'}
           />
         </div>
@@ -30,6 +31,7 @@ export const EditPassword = function () {
             type={'password'}
             defValue={repeatPass}
             setValue={setRepeatPass}
+            isString={false}
             wrapperStyles={'profile-pass-field'}
           />
         </div>
@@ -39,6 +41,7 @@ export const EditPassword = function () {
             type={'password'}
             defValue={curPass}
             setValue={setCurPass}
+            isString={false}
             wrapperStyles={'profile-pass-field'}
           />
         </div>

@@ -1,17 +1,18 @@
 import React from 'react';
 
 //TODO
-interface IMainCard {
+export interface ICard {
   id: string;
   title: string;
   status: string;
   description: string;
   projectId: string;
   projectName: string;
+  members: string[];
 }
 
-export const MainCard = function (card: IMainCard) {
-  const [taskId, title, status, description, projectId, projectName] = Object.values(card);
+export const MainCard = function (card: ICard) {
+  const [taskId, title, status, description, projectId, projectName, members] = Object.values(card);
   return (
     <div className="main-card" id={taskId}>
       <div className="main-card__headline">

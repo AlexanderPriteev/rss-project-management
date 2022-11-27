@@ -38,10 +38,21 @@ const currentMenu = (setMenu: React.Dispatch<React.SetStateAction<HeaderMenu>>) 
 export const Header = function () {
   const [menu, setMenu] = useState(null as HeaderMenu);
   const [language, setLanguage] = useState('EN' as CurrentLanguage);
+  const [headerMove, setHeaderMove] = useState(window.scrollY > 30 ? 'move' : '');
+
   useEffect(() => currentMenu(setMenu), []);
 
+  window.onscroll = () => {
+    if (window.scrollY > 30 && headerMove === '') {
+      setHeaderMove('move');
+    }
+    if (window.scrollY === 0 && headerMove === 'move') {
+      setHeaderMove('');
+    }
+  };
+
   return (
-    <header className="header">
+    <header className={`header ${headerMove}`}>
       <div className="header-logo">
         <MainLogo className="image image--contain" />
       </div>

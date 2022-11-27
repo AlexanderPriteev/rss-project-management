@@ -23,14 +23,28 @@
     border-bottom: .1rem solid $primary-700;
     box-sizing: border-box;
     padding: 0 9rem .6rem 0;
-
+    background-color: transparent;
+    line-height: 1;
     &:read-only {
       border-color: transparent;
     }
 
     &-wrapper {
       flex-grow: 1;
+      overflow: hidden;
     }
+  }
+
+  &__text{
+    font-size: 2.4rem;
+    display: block;
+    outline: none;
+    box-sizing: border-box;
+    padding: 0 9rem 0.6rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.25;
   }
 
   &__btn {
@@ -42,6 +56,10 @@
     justify-content: center;
     border-radius: 50%;
     cursor: pointer;
+    transition: opacity .2s linear;
+    &:hover{
+      opacity: .8;
+    }
 
     &-list {
       position: absolute;

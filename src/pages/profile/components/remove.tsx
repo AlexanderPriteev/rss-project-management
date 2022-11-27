@@ -19,6 +19,7 @@ export const RemoveAccount = function () {
             type={'password'}
             defValue={pass}
             setValue={setPass}
+            isString={false}
             wrapperStyles={'profile-pass-field'}
           />
         </div>

@@ -1,5 +1,4 @@
 .header{
-  min-height: 8rem;
   width: 100%;
   box-sizing: border-box;
   padding: 2.4rem;
@@ -9,6 +8,12 @@
   align-items: center;
   position: sticky;
   top: 0;
+  z-index: 3;
+  transition: padding .2s linear;
+  &.move{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
   &-logo{
     height: 3.2rem;
   }

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import { RemoveModalWrap } from '../../../../companents/modal/remove-form/wrapper';
+import { EditModal } from '../../../../companents/modal/edit-form';
 
 //TODO
 interface IBoard {
   id: string;
   title: string;
   description: string;
-  team: string;
+  team: string[];
   date: string;
   pm: string;
   countTasks: string;
@@ -14,6 +16,9 @@ interface IBoard {
 export const Board = function (card: IBoard) {
   const [boardId, title, description, team, date, pm, count] = Object.values(card);
   const [hide, setHide] = useState(true);
+  const [editModal, setEditModal] = useState(false);
+  const [removeModal, setRemoveModal] = useState(false);
+
   return (
     <div className="board" id={boardId}>
       <div className="board__head">
@@ -25,8 +30,12 @@ export const Board = function (card: IBoard) {
           >
             {hide ? 'show' : 'hide'} details
           </span>
-          <span className="board-icon icon-pen">edit</span>
-          <span className="board-icon icon-delete c-red">remove</span>
+          <span className="board-icon icon-pen" onClick={() => setEditModal(true)}>
+            edit
+          </span>
+          <span className="board-icon icon-delete c-red" onClick={() => setRemoveModal(true)}>
+            remove
+          </span>
         </div>
       </div>
       <div className={`board__body ${hide && 'hide'}`}>
@@ -34,7 +43,7 @@ export const Board = function (card: IBoard) {
           <p className="board-about">{description}</p>
           <div className="board-row">
             <span className="board-subtitle">Team:</span>
-            <span className="board-data">{team}</span>
+            <span className="board-data">{team.join(', ')}</span>
           </div>
         </div>
         <div className="board__col-about">
@@ -52,6 +61,10 @@ export const Board = function (card: IBoard) {
           </div>
         </div>
       </div>
+      {removeModal && <RemoveModalWrap name={title} control={setRemoveModal} />}
+      {editModal && (
+        <EditModal title={title} description={description} members={team} control={setEditModal} />
+      )}
     </div>
   );
 };

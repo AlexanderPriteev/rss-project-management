@@ -9,6 +9,7 @@ const tpmTask = {
     ' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vestibulum pulvinar tincidunt. Maecenas et ipsum tempor, finibus odio sit amet, maximus tortor.',
   projectId: '01',
   projectName: 'PROJECT1',
+  members: ['Cameron Williamson', 'Cameron Williamson'],
 };
 
 export const MainTasks = function () {

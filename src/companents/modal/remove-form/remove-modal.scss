@@ -1,0 +1,33 @@
+.remove-modal{
+  width: 48rem;
+  background-color: $white;
+
+  &-title{
+    font-size: 2rem;
+    font-weight: $f-bold;
+    margin-bottom: 2rem;
+  }
+  &-subtitle{
+    font-size: 1.6rem;
+    font-weight: $f-bold;
+    margin-bottom: 3.2rem;
+  }
+  &-about{
+    font-size: 1.6rem;
+    margin-bottom: 1.2rem;
+  }
+  &-field{
+    width: 100%;
+    line-height: 2rem;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    font-size: 1.4rem;
+    font-weight: $f-bold;
+    border-bottom: .1rem solid rgba($primary-900, .3);
+    color: $primary-900;
+    &::placeholder{
+      opacity: .4;
+    }
+  }
+}

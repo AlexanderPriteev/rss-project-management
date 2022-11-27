@@ -2,6 +2,7 @@ import React from 'react';
 import './style.scss';
 import { Header } from './companents/hedear';
 import { Footer } from './companents/footer';
+// import { ProjectBoard } from './pages/board';
 import { Main } from './pages/main';
 // import { Profile } from './pages/profile';
 // import { Welcome } from './pages/welcome';
@@ -18,6 +19,7 @@ function App() {
         {/*<SignUp />*/}
         {/*<Profile />*/}
         <Main />
+        {/*<ProjectBoard />*/}
       </main>
       <Footer />
     </>

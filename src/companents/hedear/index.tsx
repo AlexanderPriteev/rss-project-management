@@ -37,9 +37,10 @@ const currentMenu = (setMenu: React.Dispatch<React.SetStateAction<HeaderMenu>>) 
 };
 
 export const Header = function () {
+  const localLang = (localStorage.getItem('i18nextLng') || 'EN').toUpperCase() as CurrentLanguage;
   const location = useLocation().pathname;
   const [menu, setMenu] = useState(null as HeaderMenu);
-  const [language, setLanguage] = useState('EN' as CurrentLanguage);
+  const [language, setLanguage] = useState(localLang);
   const [headerMove, setHeaderMove] = useState(window.scrollY > 30 ? 'move' : '');
 
   const showAuthMenu = location === '/';

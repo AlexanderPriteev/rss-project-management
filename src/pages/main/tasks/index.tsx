@@ -1,5 +1,6 @@
 import React from 'react';
 import { MainCard } from './task';
+import { useTranslation } from 'react-i18next';
 
 const tpmTask = {
   id: '124',
@@ -13,11 +14,16 @@ const tpmTask = {
 };
 
 export const MainTasks = function () {
+  const { t } = useTranslation();
   return (
     <div className="main-tasks">
       <div className="main-search">
         <i className="main-search__icon icon-search" />
-        <input type="text" className="main-search__field" placeholder="SEARCH TASK" />
+        <input
+          type="text"
+          className="main-search__field"
+          placeholder={t('main:task:search') as string}
+        />
       </div>
       <div className="main-card-list">
         <MainCard {...tpmTask} />

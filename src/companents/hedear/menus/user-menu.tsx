@@ -1,8 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export const MenuUser = function () {
   const router = useNavigate();
+  const { t } = useTranslation();
   return (
     <div className="header-menu">
       <h2 className="header-menu__title">Alexander Priteev</h2>
@@ -11,19 +13,19 @@ export const MenuUser = function () {
           className="header-menu__link header-menu__link--icon header-menu__link--arrow icon-project"
           onClick={() => router(`/projects`)}
         >
-          My Projects
+          {t('header:user:projects')}
         </li>
         <li
           className="header-menu__link header-menu__link--icon header-menu__link--arrow icon-options"
           onClick={() => router(`/profile`)}
         >
-          Profile
+          {t('header:user:profile')}
         </li>
         <li
           className="header-menu__link header-menu__link--icon header-menu__link--arrow icon-logout-outlined"
           onClick={() => router(`/`)}
         >
-          Log Out
+          {t('header:user:logout')}
         </li>
       </ul>
     </div>

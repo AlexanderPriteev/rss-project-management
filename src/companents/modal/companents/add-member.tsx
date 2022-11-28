@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface IStringKey {
   str: string;
@@ -8,6 +9,7 @@ interface IStringKey {
 export const AddMember = function () {
   const [members, setMembers] = useState([] as IStringKey[]);
   const [current, setCurrent] = useState('');
+  const { t } = useTranslation();
 
   const add = () => {
     const value = {
@@ -24,7 +26,7 @@ export const AddMember = function () {
 
   return (
     <div className="modal-add">
-      <span className="modal-add-title">Add Member:</span>
+      <span className="modal-add-title">{t('newMember:title')}</span>
       <div className="modal-add-members">
         {members.map((e) => (
           <div key={e.key} id={e.key} className="modal-add-member">
@@ -33,11 +35,11 @@ export const AddMember = function () {
                 type="text"
                 className="modal-add-field"
                 defaultValue={e.str}
-                placeholder="Type Name"
+                placeholder={t('newMember:placeholder') as string}
               />
             </div>
             <button className="edit-modal-btn icon-delete c-red" onClick={() => remove(e.key)}>
-              remove
+              {t('newMember:remove')}
             </button>
           </div>
         ))}
@@ -47,13 +49,13 @@ export const AddMember = function () {
             <input
               type="text"
               className="modal-add-field"
-              placeholder="Type Name"
+              placeholder={t('newMember:placeholder') as string}
               value={current}
               onChange={(e) => setCurrent(e.target.value)}
             />
           </div>
           <button className="edit-modal-btn icon-add" onClick={add}>
-            add
+            {t('newMember:add')}
           </button>
         </div>
       </div>

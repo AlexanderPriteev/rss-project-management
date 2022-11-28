@@ -3,6 +3,7 @@ import { BoardCol } from './column';
 import { tmpBoard } from '../main/boards';
 import { EditModal } from '../../companents/modal/edit-form';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const tmpTasks = {
   tasks: new Array(4).fill({
@@ -19,6 +20,7 @@ const tmpTasks = {
 
 export const ProjectBoard = function () {
   const router = useNavigate();
+  const { t } = useTranslation();
 
   const [editProject, setEditProject] = useState(false);
   const [cols, setCols] = useState([] as string[]);
@@ -32,7 +34,7 @@ export const ProjectBoard = function () {
           <span className="project-title__text">{tmpBoard.title}</span>
         </span>
         <span className="project-board-edit icon-book" onClick={() => setEditProject(true)}>
-          details / edit
+          {t('board:project')}
         </span>
       </div>
       <div className="project-wrapper">
@@ -43,7 +45,7 @@ export const ProjectBoard = function () {
           ))}
         </div>
         <button className="project-create icon-add" onClick={() => createCol()}>
-          Create Column
+          {t('board:column')}
         </button>
       </div>
       {editProject && (

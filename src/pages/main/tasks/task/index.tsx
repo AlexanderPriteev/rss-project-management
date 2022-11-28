@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 //TODO
 export interface ICard {
@@ -14,6 +15,7 @@ export interface ICard {
 
 export const MainCard = function (card: ICard) {
   const router = useNavigate();
+  const { t } = useTranslation();
 
   const [taskId, title, status, description, projectId, projectName] = Object.values(card);
   return (
@@ -21,13 +23,15 @@ export const MainCard = function (card: ICard) {
       <div className="main-card__headline">
         <h4 className="main-card-title">{title}</h4>
         <span className="main-card-status">
-          <span className="bold">status:</span> {status}
+          <span className="bold">{t('main:task:status')}</span> {status}
         </span>
       </div>
       <p className="main-card-about">{description}</p>
       <span className="main-card-link icon-next-arrow">
         <span className="main-card-link-wrapper" id={projectId} onClick={() => router(`/board`)}>
-          Go to <span className="main-card-link__name">{projectName}</span> board
+          {t('main:task:link:0')}
+          <span className="main-card-link__name">{projectName}</span>
+          {t('main:task:link:1')}
         </span>
       </span>
     </div>

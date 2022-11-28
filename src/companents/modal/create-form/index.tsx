@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AddMember } from '../companents/add-member';
 import { LineInput } from '../../line-input';
+import { useTranslation } from 'react-i18next';
 
 type ModalType = 'Task' | 'Board';
 interface ICreateModal {
@@ -11,6 +12,8 @@ interface ICreateModal {
 
 export const CreateModal = function (props: ICreateModal) {
   const [title, setTitle] = useState('');
+  const { t } = useTranslation();
+  const type = t(`create:type:${+(props.type === 'Task')}`);
 
   const body = document.body.classList;
   if (!body.contains('ov-hidden')) body.add('ov-hidden');
@@ -24,7 +27,7 @@ export const CreateModal = function (props: ICreateModal) {
       <div className="create-modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-body create-modal__body">
           <LineInput
-            label={`${props.type} Name`}
+            label={`${type} ${t('create:name')}`}
             defValue={title}
             setValue={setTitle}
             isString={false}
@@ -32,12 +35,17 @@ export const CreateModal = function (props: ICreateModal) {
           />
           <textarea
             className="create-modal-area"
-            placeholder={`Type ${props.type.toLowerCase()} descriptions`}
+            placeholder={`${t('create:placeholder:0')}${type.toLowerCase()}${t(
+              'create:placeholder:1'
+            )}`}
           />
           <AddMember />
         </div>
         <div className="modal-footer">
-          <button className="modal-btn">Create {props.type}</button>
+          <button className="modal-btn">
+            {t('create:btn')}
+            {type}
+          </button>
         </div>
       </div>
     </div>

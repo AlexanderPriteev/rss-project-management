@@ -4,6 +4,7 @@ import { TaskMember } from './companents/member';
 import { TaskTextarea } from './companents/textarea';
 import { AddMember } from '../companents/add-member';
 import { RemoveModal } from '../remove-form';
+import { useTranslation } from 'react-i18next';
 
 interface IEditModal {
   title: string;
@@ -19,6 +20,7 @@ export const EditModal = function (projectTask: IEditModal) {
   const [remove, setRemove] = useState('');
   const [addMember, setAddMember] = useState(false);
   const [removeModal, setRemoveModal] = useState(false);
+  const { t } = useTranslation();
 
   const body = document.body.classList;
   if (!body.contains('ov-hidden')) body.add('ov-hidden');
@@ -55,19 +57,19 @@ export const EditModal = function (projectTask: IEditModal) {
             </div>
             {!addMember && (
               <span className="edit-modal-btn icon-add" onClick={() => setAddMember(true)}>
-                add member
+                {t('edit:add')}
               </span>
             )}
           </div>
           {addMember && <AddMember />}
 
           <div className="edit-modal__controls">
-            <button className="edit-modal-btn icon-check">update task</button>
+            <button className="edit-modal-btn icon-check">{t('edit:update')}</button>
             <button
               className="edit-modal-btn icon-delete c-red"
               onClick={() => setRemoveModal(true)}
             >
-              remove task
+              {t('edit:remove')}
             </button>
           </div>
         </div>

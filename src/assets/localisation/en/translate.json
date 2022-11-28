@@ -1,0 +1,120 @@
+{
+  "header": {
+    "auth": {
+      "login": "LOGIN",
+      "signup": "SIGN UP"
+    },
+    "newBoard": "Create New Board",
+    "user": {
+      "projects": "My Projects",
+      "profile": "Profile",
+      "logout": "Log Out"
+    }
+  },
+  "footer": {
+    "create": "CREATED IN 2022"
+  },
+  "welcome": {
+    "title": "Welcome to RSPM!",
+    "about": "RSPM is a collaborative project management application that allows you to distribute tasks within a team and control the process of their implementation.",
+    "controls": [
+      "To get started, please",
+      "LOGIN",
+      "or",
+      "SIGN UP"
+    ],
+    "author": [
+      "developed by",
+      "Alexander",
+      "in 2022"
+    ]
+  },
+  "login": {
+    "title": "Login",
+    "placeholder": [
+      "Email",
+      "Password"
+    ],
+    "btns": {
+      "login": "LOGIN",
+      "signup": "SIGN UP"
+    }
+  },
+  "signup": {
+    "title": "Sign Up",
+    "placeholder": [
+      "Name",
+      "Email",
+      "Password",
+      "Repeat Password"
+    ],
+    "btns": {
+      "login": "LOGIN",
+      "signup": "SIGN UP"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "name": "Name:",
+    "email": "Email:",
+    "edit": {
+      "title": "Edit Password",
+      "new": "New Password:",
+      "repeat": "Repeat Password:",
+      "current": "Current Password:",
+      "btn": "UPDATE PASSWORD"
+    },
+    "remove":{
+      "title": "Delete Profile",
+      "pass": "Password:",
+      "btn": "DELETE ACCOUNT"
+    }
+  },
+  "main": {
+    "title": "Boards",
+    "create": "Create New Board",
+    "board": {
+      "detail": ["show", "hide", "details"],
+      "edit": "edit",
+      "remove": "remove",
+      "team": "Team:",
+      "date": "Date of Creatian:",
+      "pm": "Project Manager:",
+      "count": "Count of Task:"
+    },
+    "task": {
+      "search": "SEARCH TASK",
+      "status": "status:",
+      "link": ["Go to "," board"]
+    }
+  },
+  "edit": {
+    "add": "add member",
+    "remove": "remove",
+    "update": "update"
+  },
+  "newMember":{
+    "title":"Add Member:",
+    "add": "add",
+    "remove": "remove",
+    "placeholder": "Type Name"
+  },
+  "remove": {
+    "title": "Are you absolutely sure?",
+    "subtitle": "This action cannot be undone. This will permanently delete the",
+    "about": ["Please type", "to confirm."],
+    "placeholder": "Type",
+    "btn": "Remove"
+  },
+  "create": {
+    "type": ["Task", "Board"],
+    "name": "Name",
+    "placeholder": ["Type ", " descriptions"],
+    "btn": "Create "
+  },
+  "board": {
+    "project": "details / edit",
+    "task": "Create Task",
+    "column": "Create Column"
+  }
+}

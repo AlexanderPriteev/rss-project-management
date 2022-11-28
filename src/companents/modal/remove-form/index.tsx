@@ -1,24 +1,32 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface IRemoveModal {
   name: string;
 }
 
 export const RemoveModal = function (props: IRemoveModal) {
+  const { t } = useTranslation();
   return (
     <div className="remove-modal" onClick={(e) => e.stopPropagation()}>
       <div className="modal-body">
-        <h2 className="remove-modal-title">Are you absolutely sure?</h2>
+        <h2 className="remove-modal-title">{t('remove:title')}</h2>
         <p className="remove-modal-subtitle">
-          This action cannot be undone. This will permanently delete the {props.name}
+          {t('remove:subtitle')} {props.name}.
         </p>
         <p className="remove-modal-about">
-          Please type <span className="bold">{props.name}</span> to confirm.
+          {t('remove:about:0')}
+          <span className="bold">{props.name}</span>
+          {t('remove:about:1')}
         </p>
-        <input type="text" className="remove-modal-field" placeholder="Type" />
+        <input
+          type="text"
+          className="remove-modal-field"
+          placeholder={t('remove:placeholder') as string}
+        />
       </div>
       <div className="modal-footer">
-        <button className="modal-btn bg-red">Remove Project</button>
+        <button className="modal-btn bg-red">{t('remove:btn')}</button>
       </div>
     </div>
   );

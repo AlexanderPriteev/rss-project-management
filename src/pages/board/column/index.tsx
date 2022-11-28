@@ -3,6 +3,7 @@ import { LineInput } from '../../../companents/line-input';
 import { ProjectTask } from './task';
 import { ICard } from '../../main/tasks/task';
 import { CreateModal } from '../../../companents/modal/create-form';
+import { useTranslation } from 'react-i18next';
 
 interface IBoardCol {
   tasks?: ICard[];
@@ -11,6 +12,7 @@ interface IBoardCol {
 export const BoardCol = function (taskList: IBoardCol) {
   const [name, setName] = useState('Backlog');
   const [createModal, setCreateModal] = useState(false);
+  const { t } = useTranslation();
   return (
     <div className="project-col">
       <div className="project-col__head">
@@ -34,7 +36,7 @@ export const BoardCol = function (taskList: IBoardCol) {
           className="project-create project-create--task icon-add"
           onClick={() => setCreateModal(true)}
         >
-          Create Task
+          {t('board:task')}
         </button>
       </div>
       {createModal && <CreateModal type={'Task'} control={setCreateModal} />}

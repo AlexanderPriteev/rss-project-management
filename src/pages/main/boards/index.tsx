@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Board } from './board';
 import { CreateModal } from '../../../companents/modal/create-form';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export const tmpBoard = {
   id: '1234',
@@ -26,6 +27,7 @@ export const MainBoards = function () {
   const location = useLocation();
   const router = useNavigate();
   const [createModal, setCreateModal] = useState(location.state);
+  const { t } = useTranslation();
   useEffect(() => {
     if (location.state) {
       router(location.pathname, {});
@@ -35,9 +37,9 @@ export const MainBoards = function () {
   return (
     <div className="main-boards">
       <div className="headline">
-        Boards
+        {t('main:title')}
         <span className="board-new icon-add" onClick={() => setCreateModal(true)}>
-          Create New Board
+          {t('main:create')}
         </span>
       </div>
       <div className="board-list">

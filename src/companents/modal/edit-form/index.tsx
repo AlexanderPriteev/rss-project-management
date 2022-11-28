@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { LineInput } from '../../line-input';
 import { TaskMember } from './companents/member';
 import { TaskTextarea } from './companents/textarea';
@@ -27,6 +27,13 @@ export const EditModal = function (projectTask: IEditModal) {
     projectTask.control(false);
   };
 
+  useEffect(() => {
+    if (remove) {
+      setMembers(members.filter((e) => e !== remove));
+      setRemove('');
+    }
+  }, [members, remove]);
+
   return (
     <div className="modal-wrapper" onClick={close}>
       {!removeModal && (
@@ -42,8 +49,8 @@ export const EditModal = function (projectTask: IEditModal) {
           <TaskTextarea description={desc} setDescription={setDesc} />
           <div className="edit-modal__members">
             <div className="edit-modal__member-list">
-              {[...new Set(members)].map((e, i) => (
-                <TaskMember member={e} setRemove={setRemove} key={i} />
+              {[...new Set(members)].map((e) => (
+                <TaskMember member={e} setRemove={setRemove} key={e} />
               ))}
             </div>
             {!addMember && (

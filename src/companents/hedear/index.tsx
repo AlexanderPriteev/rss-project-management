@@ -4,6 +4,7 @@ import { MenuNewProject } from './menus/new-project';
 import { MenuUser } from './menus/user-menu';
 import { MenuLang } from './menus/lang-menu';
 import { MenuAuth } from './menus/auth-menu';
+import { useLocation } from 'react-router-dom';
 
 const USER_MENU = 'USER_MENU';
 const NEW_PROJECT = 'NEW_PROJECT';
@@ -36,9 +37,13 @@ const currentMenu = (setMenu: React.Dispatch<React.SetStateAction<HeaderMenu>>) 
 };
 
 export const Header = function () {
+  const location = useLocation().pathname;
   const [menu, setMenu] = useState(null as HeaderMenu);
   const [language, setLanguage] = useState('EN' as CurrentLanguage);
   const [headerMove, setHeaderMove] = useState(window.scrollY > 30 ? 'move' : '');
+
+  const showAuthMenu = location === '/';
+  const showMenu = ['/profile', '/projects', '/board'].includes(location);
 
   useEffect(() => currentMenu(setMenu), []);
 
@@ -60,9 +65,14 @@ export const Header = function () {
         <span className="header-nav" id="lang">
           {language}
         </span>
-        <i className="header-nav icon-add-project" id="project" />
-        <i className="header-nav icon-user-outlined" id="user" />
-        <i className="header-nav icon-login-outlined" id="auth" />
+
+        {showMenu && (
+          <>
+            <i className="header-nav icon-add-project" id="project" />
+            <i className="header-nav icon-user-outlined" id="user" />
+          </>
+        )}
+        {showAuthMenu && <i className="header-nav icon-login-outlined" id="auth" />}
       </nav>
       {menu === LANGUAGE && <MenuLang setValue={setLanguage} />}
       {menu === NEW_PROJECT && <MenuNewProject />}

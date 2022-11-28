@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Board } from './board';
 import { CreateModal } from '../../../companents/modal/create-form';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const tmpBoard = {
   id: '1234',
@@ -22,7 +23,15 @@ export const tmpBoard = {
 };
 
 export const MainBoards = function () {
-  const [createModal, setCreateModal] = useState(false);
+  const location = useLocation();
+  const router = useNavigate();
+  const [createModal, setCreateModal] = useState(location.state);
+  useEffect(() => {
+    if (location.state) {
+      router(location.pathname, {});
+    }
+  }, [location, router]);
+
   return (
     <div className="main-boards">
       <div className="headline">

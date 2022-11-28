@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { RemoveModalWrap } from '../../../../companents/modal/remove-form/wrapper';
 import { EditModal } from '../../../../companents/modal/edit-form';
+import { useNavigate } from 'react-router-dom';
 
 //TODO
 interface IBoard {
@@ -14,6 +15,8 @@ interface IBoard {
 }
 
 export const Board = function (card: IBoard) {
+  const router = useNavigate();
+
   const [boardId, title, description, team, date, pm, count] = Object.values(card);
   const [hide, setHide] = useState(true);
   const [editModal, setEditModal] = useState(false);
@@ -22,7 +25,9 @@ export const Board = function (card: IBoard) {
   return (
     <div className="board" id={boardId}>
       <div className="board__head">
-        <h3 className="board-title">{title}</h3>
+        <h3 className="board-title" onClick={() => router(`/board`)}>
+          {title}
+        </h3>
         <div className="board-icon-list">
           <span
             className={`board-icon icon-${hide ? 'show' : 'hide'}`}

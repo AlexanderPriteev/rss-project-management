@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BoardCol } from './column';
 import { tmpBoard } from '../main/boards';
 import { EditModal } from '../../companents/modal/edit-form';
+import { useNavigate } from 'react-router-dom';
 
 const tmpTasks = {
   tasks: new Array(4).fill({
@@ -17,6 +18,8 @@ const tmpTasks = {
 };
 
 export const ProjectBoard = function () {
+  const router = useNavigate();
+
   const [editProject, setEditProject] = useState(false);
   const [cols, setCols] = useState([] as string[]);
   const createCol = () => {
@@ -25,7 +28,7 @@ export const ProjectBoard = function () {
   return (
     <div className="project">
       <div className="project__headline">
-        <span className="project-title icon-prev-arrow">
+        <span className="project-title icon-prev-arrow" onClick={() => router(`/projects`)}>
           <span className="project-title__text">{tmpBoard.title}</span>
         </span>
         <span className="project-board-edit icon-book" onClick={() => setEditProject(true)}>

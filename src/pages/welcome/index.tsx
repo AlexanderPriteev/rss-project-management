@@ -1,7 +1,9 @@
 import React from 'react';
 import { ReactComponent as WelcomeImage } from '../../assets/images/scrum_board.svg';
+import { useNavigate } from 'react-router-dom';
 
 export const Welcome = function () {
+  const router = useNavigate();
   return (
     <section className="welcome">
       <div className="welcome-col__about">
@@ -11,8 +13,14 @@ export const Welcome = function () {
           within a team and control the process of their implementation.
         </p>
         <p className="welcome-next">
-          To get started, please <span className="link uppercase">login</span> or{' '}
-          <span className="link uppercase">sign up</span>
+          To get started, please{' '}
+          <span className="link uppercase" onClick={() => router(`/login`)}>
+            login
+          </span>{' '}
+          or{' '}
+          <span className="link uppercase" onClick={() => router(`/sign-up`)}>
+            sign up
+          </span>
         </p>
       </div>
       <div className="welcome-col__image">

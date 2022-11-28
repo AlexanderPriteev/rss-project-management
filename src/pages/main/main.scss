@@ -185,6 +185,10 @@
   &-title {
     font-weight: $f-normal;
     font-size: 2rem;
+    cursor: pointer;
+    &:hover{
+      text-decoration: underline;
+    }
   }
 
   &-icon {

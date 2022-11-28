@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 //TODO
 export interface ICard {
@@ -12,7 +13,9 @@ export interface ICard {
 }
 
 export const MainCard = function (card: ICard) {
-  const [taskId, title, status, description, projectId, projectName, members] = Object.values(card);
+  const router = useNavigate();
+
+  const [taskId, title, status, description, projectId, projectName] = Object.values(card);
   return (
     <div className="main-card" id={taskId}>
       <div className="main-card__headline">
@@ -23,7 +26,7 @@ export const MainCard = function (card: ICard) {
       </div>
       <p className="main-card-about">{description}</p>
       <span className="main-card-link icon-next-arrow">
-        <span className="main-card-link-wrapper" id={projectId}>
+        <span className="main-card-link-wrapper" id={projectId} onClick={() => router(`/board`)}>
           Go to <span className="main-card-link__name">{projectName}</span> board
         </span>
       </span>

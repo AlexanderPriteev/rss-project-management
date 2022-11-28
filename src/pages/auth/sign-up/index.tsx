@@ -1,8 +1,11 @@
 import React from 'react';
 import { ReactComponent as AuthImage } from '../../../assets/images/login.svg';
 import { AuthInput } from '../../../companents/auth-form/input-field';
+import { useNavigate } from 'react-router-dom';
 
 export const SignUp = function () {
+  const router = useNavigate();
+
   return (
     <div className="auth">
       <div className="auth__col-form">
@@ -15,8 +18,12 @@ export const SignUp = function () {
             <AuthInput placeholder="Repeat Password" isPass={true} />
           </div>
           <div className="auth-form-wrapper">
-            <button className="auth-btn">Sign Up</button>
-            <button className="auth-btn auth-btn--outline">Login</button>
+            <button className="auth-btn" onClick={() => router(`/projects`)}>
+              Sign Up
+            </button>
+            <button className="auth-btn auth-btn--outline" onClick={() => router(`/login`)}>
+              Login
+            </button>
           </div>
         </div>
       </div>

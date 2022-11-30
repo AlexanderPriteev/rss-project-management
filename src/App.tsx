@@ -14,9 +14,10 @@ function App() {
     <HashRouter>
       <Routes>
         <Route path="/" element={<Index />}>
-          <Route index element={<Welcome />} />
+          <Route index element={<SignUp />} />
+          <Route path="/welcome" element={<Welcome />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/sign-up" element={<SignUp />} />
+          {/*<Route path="/sign-up" element={<SignUp />} />*/}
           <Route path="/profile" element={<Profile />} />
           <Route path="/projects" element={<Main />} />
           <Route path="/board" element={<ProjectBoard />} />

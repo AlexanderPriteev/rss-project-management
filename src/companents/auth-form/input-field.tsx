@@ -4,6 +4,7 @@ interface IAuthInput {
   placeholder?: string;
   icon?: string;
   isPass?: boolean;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const AuthInput = function (props: IAuthInput) {
@@ -15,7 +16,13 @@ export const AuthInput = function (props: IAuthInput) {
   };
   return (
     <div className="auth-input">
-      <input type={type} className="auth-input__field" placeholder=" " autoComplete="off" />
+      <input
+        type={type}
+        className="auth-input__field"
+        placeholder=" "
+        autoComplete="off"
+        onChange={(e) => props.setValue(e.target.value)}
+      />
       {props.placeholder && <span className="auth-input__label">{props.placeholder}</span>}
       {props.icon && !props.isPass && <i className={`auth-input__icon ${props.icon}`} />}
       {props.isPass && (

@@ -38,6 +38,11 @@
     "btns": {
       "login": "LOGIN",
       "signup": "SIGN UP"
+    },
+    "alert": {
+      "field": "The field cannot be empty",
+      "user": "Inappropriate e-mail or password",
+      "db": "Failed to enter"
     }
   },
   "signup": {
@@ -51,6 +56,15 @@
     "btns": {
       "login": "LOGIN",
       "signup": "SIGN UP"
+    },
+    "alert": {
+      "name": "Should be longer than 3 symbols",
+      "mail": "Type e-mail",
+      "changeEmail": "Change e-mail",
+      "pass": "Should be longer than 6 symbols",
+      "repeat": "Passwords must match",
+      "user": "The user already exists",
+      "db": "Failed to register the user"
     }
   },
   "profile": {

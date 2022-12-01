@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 2.4rem;
+  gap: 4.2rem;
   margin: auto;
   &__col{
     &-form{
@@ -22,7 +22,7 @@
     &-wrapper{
       display: flex;
       flex-direction: column;
-      gap: 1.4rem;
+      gap: 1.5rem;
     }
 
     &-title{
@@ -53,6 +53,9 @@
         top: 2.5rem;
         font-size: 1.6rem;
       }
+      &--alert{
+        border-color: $c-alert;
+      }
     }
     &__label{
       top: 0;
@@ -64,6 +67,19 @@
       position: absolute;
       left: 0;
       transition: font-size .2s linear, top .2s linear;
+    }
+    &__alert{
+      position: absolute;
+      left: 0;
+      top: calc(100% + .2rem);
+      width: 100%;
+      color: $c-alert;
+      font-size: 1.4rem;
+      overflow: hidden;
+      display: block;
+      text-overflow: ellipsis;
+      text-align: right;
+      white-space: nowrap;
     }
     &__icon{
       width: 2.4rem;

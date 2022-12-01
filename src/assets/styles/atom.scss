@@ -25,6 +25,12 @@
 .underline{
   text-decoration: underline;
 }
+.g{
+  &-2d5{
+    gap: 2.5rem;
+  }
+}
+
 .c{
   &-red{
     color: $c-alert;

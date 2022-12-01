@@ -4,6 +4,7 @@ import { tmpBoard } from '../main/boards';
 import { EditModal } from '../../companents/modal/edit-form';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useCheckUser } from '../../api/checkAuth';
 
 const tmpTasks = {
   tasks: new Array(4).fill({
@@ -19,6 +20,7 @@ const tmpTasks = {
 };
 
 export const ProjectBoard = function () {
+  useCheckUser();
   const router = useNavigate();
   const { t } = useTranslation();
 

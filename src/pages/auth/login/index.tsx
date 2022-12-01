@@ -3,27 +3,45 @@ import { ReactComponent as AuthImage } from '../../../assets/images/login.svg';
 import { AuthInput } from '../../../companents/auth-form/input-field';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { getUsers, userSignIn } from '../../../api/requests';
+import { getUsers, IUser, userSignIn } from '../../../api/requests';
+import { useDispatch } from 'react-redux';
+import { reduxUser } from '../../../state';
 
 export const Login = function () {
+  const dispatch = useDispatch();
   const router = useNavigate();
   const { t } = useTranslation();
 
   const [login, setLogin] = useState('');
   const [pass, setPass] = useState('');
 
+  const [alert, setAlert] = useState('');
+  const [alertMail, setAlertMail] = useState('');
+  const [alertPass, setAlertPass] = useState('');
+
   const sigIn = async () => {
-    const validateLogin = login.length > 3;
-    const validatePass = pass.length > 6;
+    const validateLogin = !!login.length;
+    const validatePass = !!pass.length;
     if (validateLogin && validatePass) {
-      const { token } = await userSignIn(login, pass);
-      localStorage.setItem('token', token);
-      const user = (await getUsers(token)).find((e) => e.login === login);
+      try {
+        const { token } = await userSignIn(login, pass);
+        localStorage.setItem('token', token);
+        const user = (await getUsers(token)).find((e) => e.login === login) as IUser;
+        localStorage.setItem('userId', user._id as string);
+        dispatch(reduxUser({ ...user, password: pass }));
 
-      //TODO
-      console.log(user);
-
-      router(`/projects`);
+        router(`/`);
+      } catch (e) {
+        switch ((e as Error).message) {
+          case '401':
+            setAlert(t('login:alert:user') as string);
+            setAlertMail(t('login:alert:field') as string);
+            setAlertPass(t('login:alert:field') as string);
+            break;
+          default:
+            setAlert(t('login:alert:db') as string);
+        }
+      }
     }
   };
 
@@ -37,11 +55,13 @@ export const Login = function () {
               placeholder={t('login:placeholder:0') as string}
               icon="icon-email"
               setValue={setLogin}
+              alert={alertMail}
             />
             <AuthInput
               placeholder={t('login:placeholder:1') as string}
               isPass={true}
               setValue={setPass}
+              alert={alertPass}
             />
           </div>
           <div className="auth-form-wrapper">
@@ -57,6 +77,12 @@ export const Login = function () {
       <div className="auth__col-image">
         <AuthImage className="image image--contain" />
       </div>
+      {alert && (
+        <span className="alert">
+          <span className="alert__about">{alert}</span>
+          <i className="alert__close icon-close" onClick={() => setAlert('')} />
+        </span>
+      )}
     </div>
   );
 };

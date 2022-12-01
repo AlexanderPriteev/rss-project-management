@@ -43,8 +43,8 @@ export const Header = function () {
   const [language, setLanguage] = useState(localLang);
   const [headerMove, setHeaderMove] = useState(window.scrollY > 30 ? 'move' : '');
 
-  const showAuthMenu = location === '/';
-  const showMenu = ['/profile', '/projects', '/board'].includes(location);
+  const showAuthMenu = location === '/' && !localStorage.getItem('userId');
+  const showMenu = localStorage.getItem('userId');
 
   useEffect(() => currentMenu(setMenu), []);
 

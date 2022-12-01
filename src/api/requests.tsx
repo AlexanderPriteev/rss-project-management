@@ -1,4 +1,4 @@
-const base = 'https://rss-react-7a6b.up.railway.app/';
+export const base = 'https://final-task-backend-81de.up.railway.app';
 
 const request = async (
   url: string,
@@ -13,7 +13,7 @@ const request = async (
   const response = await fetch(url, { method, body, headers });
 
   if (!response.ok) {
-    throw new Error(`Could not fetch ${url}, status: ${response.status}`);
+    throw new Error(`${response.status}`);
   }
 
   return await response.json();
@@ -21,10 +21,10 @@ const request = async (
 
 //Auth
 export const userSignIn = async (login: string, password: string) => {
-  return request(`${base}auth/signin`, 'POST', JSON.stringify({ login, password }));
+  return request(`${base}/auth/signin`, 'POST', JSON.stringify({ login, password }));
 };
 export const userSignUp = async (name: string, login: string, password: string) => {
-  return request(`${base}auth/signup`, 'POST', JSON.stringify({ name, login, password }));
+  return request(`${base}/auth/signup`, 'POST', JSON.stringify({ name, login, password }));
 };
 
 //Users
@@ -32,31 +32,32 @@ export interface IUser {
   _id: string;
   name: string;
   login: string;
+  password?: string;
 }
 
 export const getUsers = async (token: string) => {
-  return (await request(`${base}users`, 'GET', null, {
+  return (await request(`${base}/users`, 'GET', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   })) as IUser[];
 };
 
 export const getUsersById = async (userId: string, token: string) => {
-  return (await request(`${base}users/${userId}`, 'GET', null, {
+  return (await request(`${base}/users/${userId}`, 'GET', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   })) as IUser;
 };
 
 export const updateUser = async (userId: string, user: IUser, token: string) => {
-  return await request(`${base}users/${userId}`, 'PUT', JSON.stringify(user), {
+  return await request(`${base}/users/${userId}`, 'PUT', JSON.stringify(user), {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
 };
 
 export const deleteUser = async (userId: string, token: string) => {
-  return await request(`${base}users/${userId}`, 'DELETE', null, {
+  return await request(`${base}/users/${userId}`, 'DELETE', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
@@ -64,21 +65,21 @@ export const deleteUser = async (userId: string, token: string) => {
 
 //Boards
 export const getBoards = async (token: string) => {
-  return await request(`${base}boards`, 'GET', null, {
+  return await request(`${base}/boards`, 'GET', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
 };
 
 export const createBoard = async (token: string, title: string, owner: string, users: string[]) => {
-  return await request(`${base}boards`, 'POST', JSON.stringify({ title, owner, users }), {
+  return await request(`${base}/boards`, 'POST', JSON.stringify({ title, owner, users }), {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
 };
 
 export const getBoardById = async (token: string, boardId: string) => {
-  return await request(`${base}boards/${boardId}`, 'GET', null, {
+  return await request(`${base}/boards/${boardId}`, 'GET', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
@@ -91,28 +92,33 @@ export const updateBoard = async (
   owner: string,
   users: string[]
 ) => {
-  return await request(`${base}boards/${boardId}`, 'PUT', JSON.stringify({ title, owner, users }), {
-    'Content-type': 'application/json',
-    Authorization: `Bearer ${token}`,
-  });
+  return await request(
+    `${base}/boards/${boardId}`,
+    'PUT',
+    JSON.stringify({ title, owner, users }),
+    {
+      'Content-type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    }
+  );
 };
 
 export const deleteBoard = async (token: string, boardId: string) => {
-  return await request(`${base}boardsSet/${boardId}`, 'DELETE', null, {
+  return await request(`${base}/boardsSet/${boardId}`, 'DELETE', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
 };
 
 export const getBoardsSet = async (token: string) => {
-  return await request(`${base}boardsSet`, 'GET', null, {
+  return await request(`${base}/boardsSet`, 'GET', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
 };
 
 export const getUserBoards = async (token: string, userId: string) => {
-  return await request(`${base}boardsSet/${userId}`, 'GET', null, {
+  return await request(`${base}/boardsSet/${userId}`, 'GET', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
@@ -120,7 +126,7 @@ export const getUserBoards = async (token: string, userId: string) => {
 
 //Columns
 export const getBoardColumn = async (token: string, boardId: string) => {
-  return await request(`${base}boards/${boardId}/columns`, 'GET', null, {
+  return await request(`${base}/boards/${boardId}/columns`, 'GET', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
@@ -133,7 +139,7 @@ export const createColumn = async (
   order: number
 ) => {
   return await request(
-    `${base}boards/${boardId}/columns`,
+    `${base}/boards/${boardId}/columns`,
     'POST',
     JSON.stringify({ title, order }),
     {
@@ -144,7 +150,7 @@ export const createColumn = async (
 };
 
 export const getColumnById = async (token: string, boardId: string, columnId: string) => {
-  return await request(`${base}boards/${boardId}/columns/${columnId}`, 'GET', null, {
+  return await request(`${base}/boards/${boardId}/columns/${columnId}`, 'GET', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
@@ -158,7 +164,7 @@ export const updateColumn = async (
   order: number
 ) => {
   return await request(
-    `${base}boards/${boardId}/columns/${columnId}`,
+    `${base}/boards/${boardId}/columns/${columnId}`,
     'PUT',
     JSON.stringify({ title, order }),
     {
@@ -169,21 +175,21 @@ export const updateColumn = async (
 };
 
 export const deleteColumnById = async (token: string, boardId: string, columnId: string) => {
-  return await request(`${base}boards/${boardId}/columns/${columnId}`, 'DELETE', null, {
+  return await request(`${base}/boards/${boardId}/columns/${columnId}`, 'DELETE', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
 };
 
 export const getColumnSet = async (token: string) => {
-  return await request(`${base}columnsSet`, 'GET', null, {
+  return await request(`${base}/columnsSet`, 'GET', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
 };
 
 export const updateColumnSet = async (token: string, columnId: string, order: number) => {
-  return await request(`${base}columnsSet`, 'PATCH', JSON.stringify({ columnId, order }), {
+  return await request(`${base}/columnsSet`, 'PATCH', JSON.stringify({ columnId, order }), {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
@@ -195,7 +201,7 @@ export const createColumnSet = async (
   order: number,
   boardId: string
 ) => {
-  return await request(`${base}boards`, 'POST', JSON.stringify({ title, order, boardId }), {
+  return await request(`${base}/boards`, 'POST', JSON.stringify({ title, order, boardId }), {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
@@ -219,7 +225,7 @@ export const getColumnTasks = async (token: string, boardId: string, columnId: s
 
 export const createTask = async (token: string, boardId: string, columnId: string, task: ITask) => {
   return await request(
-    `${base}boards/${boardId}/columns/${columnId}/tasks`,
+    `${base}/boards/${boardId}/columns/${columnId}/tasks`,
     'POST',
     JSON.stringify(task),
     {
@@ -236,7 +242,7 @@ export const getTaskById = async (
   taskId: string
 ) => {
   return await request(
-    `${base}boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
+    `${base}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
     'GET',
     null,
     {
@@ -254,7 +260,7 @@ export const updateTask = async (
   task: ITask
 ) => {
   return await request(
-    `${base}boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
+    `${base}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
     'PUT',
     JSON.stringify(task),
     {
@@ -271,7 +277,7 @@ export const deleteTask = async (
   taskId: string
 ) => {
   return await request(
-    `${base}boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
+    `${base}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
     'DELETE',
     null,
     {
@@ -282,7 +288,7 @@ export const deleteTask = async (
 };
 
 export const getTaskSet = async (token: string) => {
-  return await request(`${base}taskSet`, 'GET', null, {
+  return await request(`${base}/taskSet`, 'GET', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
@@ -294,14 +300,14 @@ interface ITaskSet {
   columnId: string;
 }
 export const updateTaskSet = async (token: string, taskSet: ITaskSet) => {
-  return await request(`${base}taskSet`, 'PATCH', JSON.stringify(taskSet), {
+  return await request(`${base}/taskSet`, 'PATCH', JSON.stringify(taskSet), {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
 };
 
 export const getBoardTaskSet = async (token: string, boardId: string) => {
-  return await request(`${base}taskSet/${boardId}`, 'GET', null, {
+  return await request(`${base}/taskSet/${boardId}`, 'GET', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
@@ -316,35 +322,35 @@ interface IPoint {
 }
 
 export const getPoints = async (token: string) => {
-  return await request(`${base}points`, 'GET', null, {
+  return await request(`${base}/points`, 'GET', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
 };
 
 export const createPoints = async (token: string, point: IPoint) => {
-  return await request(`${base}points`, 'POST', JSON.stringify(point), {
+  return await request(`${base}/points`, 'POST', JSON.stringify(point), {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
 };
 
 export const getPointsTaskId = async (token: string, taskId: string) => {
-  return await request(`${base}points/${taskId}`, 'GET', null, {
+  return await request(`${base}/points/${taskId}`, 'GET', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
 };
 
 export const updatePoint = async (token: string, pointId: string, title: string, done: boolean) => {
-  return await request(`${base}points/${pointId}`, 'PATCH', JSON.stringify({ title, done }), {
+  return await request(`${base}/points/${pointId}`, 'PATCH', JSON.stringify({ title, done }), {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
 };
 
 export const deletePoint = async (token: string, pointId: string) => {
-  return await request(`${base}points/${pointId}`, 'DELETE', null, {
+  return await request(`${base}/points/${pointId}`, 'DELETE', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });

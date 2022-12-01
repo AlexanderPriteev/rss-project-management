@@ -57,6 +57,7 @@
       align-items: center;
       justify-content: center;
       transition: opacity .2s linear;
+      text-transform: uppercase;
 
       &.disabled{
         pointer-events: none;

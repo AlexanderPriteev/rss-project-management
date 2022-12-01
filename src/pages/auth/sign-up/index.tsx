@@ -4,9 +4,12 @@ import { AuthInput } from '../../../companents/auth-form/input-field';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { emailValidate } from '../../../companents/line-input';
-import { userSignUp } from '../../../api/requests';
+import { getUsers, IUser, userSignIn, userSignUp } from '../../../api/requests';
+import { reduxUser } from '../../../state';
+import { useDispatch } from 'react-redux';
 
 export const SignUp = function () {
+  const dispatch = useDispatch();
   const router = useNavigate();
   const { t } = useTranslation();
 
@@ -31,7 +34,12 @@ export const SignUp = function () {
     if (validate) {
       try {
         await userSignUp(name, mail, pass);
-        router(`/projects`);
+        const { token } = await userSignIn(mail, pass);
+        localStorage.setItem('token', token);
+        const user = (await getUsers(token)).find((e) => e.login === mail) as IUser;
+        localStorage.setItem('userId', user._id as string);
+        dispatch(reduxUser({ ...user, password: pass }));
+        router(`/`);
       } catch (e) {
         switch ((e as Error).message) {
           case '409':
@@ -41,6 +49,7 @@ export const SignUp = function () {
           default:
             setAlert(t('signup:alert:db') as string);
         }
+        setTimeout(() => setAlert(''), 3000);
       }
     } else {
       if (!validateName) {

@@ -41,6 +41,7 @@ export const Login = function () {
           default:
             setAlert(t('login:alert:db') as string);
         }
+        setTimeout(() => setAlert(''), 3000);
       }
     }
   };

@@ -73,6 +73,11 @@
     "email": "Email:",
     "submit": "Update Profile",
     "pass": "Current Password:",
+    "alert": {
+      "success": "Profile updated successfully",
+      "error": "Failed to update profile",
+      "errorPass": "Invalid password"
+    },
     "edit": {
       "title": "Edit Password",
       "new": "New Password:",
@@ -94,7 +99,7 @@
       "edit": "edit",
       "remove": "remove",
       "team": "Team:",
-      "date": "Date of Creatian:",
+      "date": "Date of Creation:",
       "pm": "Project Manager:",
       "count": "Count of Task:"
     },

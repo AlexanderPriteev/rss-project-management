@@ -47,6 +47,14 @@ export const LineInput = function (props: ILineInput) {
     setNewValue(props.defValue || '');
   };
 
+  const typeValue = (value: string) => {
+    if (props.hasIcons) {
+      setNewValue(value);
+    } else {
+      props.setValue(value);
+    }
+  };
+
   return (
     <div className={`line-input ${props.wrapperStyles || ''}`}>
       {props.label && <span className="line-input-label">{props.label}</span>}
@@ -57,7 +65,7 @@ export const LineInput = function (props: ILineInput) {
           className={`line-input__field${isText && !str ? ' hide' : ''}`}
           value={newValue}
           readOnly={onlyRead}
-          onChange={(e) => setNewValue(e.target.value)}
+          onChange={(e) => typeValue(e.target.value)}
         />
         {isText && <span className={`line-input__text${str ? ' hide' : ''}`}>{newValue}</span>}
       </div>

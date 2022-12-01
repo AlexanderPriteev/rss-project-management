@@ -15,14 +15,14 @@ export const MenuUser = function () {
   const router = useNavigate();
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const userName = useSelector((state: StateReduxInterface) => state.user.name);
+  const userName = useSelector((state: StateReduxInterface) => state.user);
   const logOut = () => {
     userLogOut(dispatch);
     router('/');
   };
   return (
     <div className="header-menu">
-      <h2 className="header-menu__title">{userName}</h2>
+      <h2 className="header-menu__title">{userName.name}</h2>
       <ul className="header-menu__link-list">
         <li
           className="header-menu__link header-menu__link--icon header-menu__link--arrow icon-project"

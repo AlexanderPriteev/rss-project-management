@@ -24,6 +24,7 @@ export const stateRedux: StateReduxInterface = {
 const reducer = (state: StateReduxInterface = stateRedux, action: ReduxReducer) => {
   switch (action.type) {
     case USER_DATA:
+      console.log(action.data);
       return { ...state, user: action.data };
     default:
       return state;

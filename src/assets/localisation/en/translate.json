@@ -71,6 +71,8 @@
     "title": "Profile",
     "name": "Name:",
     "email": "Email:",
+    "submit": "Update Profile",
+    "pass": "Current Password:",
     "edit": {
       "title": "Edit Password",
       "new": "New Password:",

@@ -29,7 +29,7 @@ export const userSignUp = async (name: string, login: string, password: string) 
 
 //Users
 export interface IUser {
-  _id: string;
+  _id?: string;
   name: string;
   login: string;
   password?: string;

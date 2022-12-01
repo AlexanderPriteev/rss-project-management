@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export const emailValidate =
   /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
@@ -28,6 +28,9 @@ export const LineInput = function (props: ILineInput) {
       setStr(!str);
     }
   };
+  useEffect(() => {
+    setNewValue(props.defValue);
+  }, [props.defValue]);
 
   const updateValue = () => {
     const validate = props.type === 'email' ? emailValidate.test(newValue) : newValue.length > 3;

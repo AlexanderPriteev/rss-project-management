@@ -75,6 +75,7 @@
     "pass": "Current Password:",
     "alert": {
       "success": "Profile updated successfully",
+      "successPass": "Password updated successfully",
       "error": "Failed to update profile",
       "errorPass": "Invalid password"
     },

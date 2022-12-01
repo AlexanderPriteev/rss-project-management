@@ -1,13 +1,47 @@
 import React, { useState } from 'react';
 import { LineInput } from '../../../companents/line-input';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUser, userSignIn } from '../../../api/requests';
+import { reduxUser, StateReduxInterface } from '../../../state';
 
 export const EditPassword = function () {
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
+
+  const user = useSelector((state: StateReduxInterface) => state.user);
+  const token = localStorage.getItem('token') as string;
+
   const [newPass, setNewPass] = useState('');
   const [repeatPass, setRepeatPass] = useState('');
   const [curPass, setCurPass] = useState('');
   const [hideMenu, setHideMenu] = useState(true);
-  const { t } = useTranslation();
+
+  const [alertSuccess, setAlertSuccess] = useState('');
+  const [alertError, setAlertError] = useState('');
+
+  const updatePass = async () => {
+    try {
+      await userSignIn(user.login, curPass);
+      await updateUser(
+        user._id as string,
+        { name: user.name, login: user.login, password: newPass },
+        token
+      );
+      dispatch(reduxUser({ ...user, password: newPass }));
+      setAlertSuccess(t('profile:alert:successPass') as string);
+      setTimeout(() => setAlertSuccess(''), 3000);
+    } catch (e) {
+      switch ((e as Error).message) {
+        case '401':
+          setAlertError(t('profile:alert:errorPass') as string);
+          break;
+        default:
+          setAlertError(t('profile:alert:error') as string);
+      }
+      setTimeout(() => setAlertError(''), 3000);
+    }
+  };
   return (
     <div className="profile-list">
       <button
@@ -47,8 +81,27 @@ export const EditPassword = function () {
             wrapperStyles={'profile-pass-field'}
           />
         </div>
-        <button className="profile-list-submit bg-primary">{t('profile:edit:btn')}</button>
+        <button
+          className={`profile-list-submit bg-primary${
+            newPass === repeatPass && newPass.length > 6 && curPass.length > 6 ? '' : ' disabled'
+          }`}
+          onClick={() => updatePass()}
+        >
+          {t('profile:edit:btn')}
+        </button>
       </div>
+      {alertSuccess && (
+        <span className="alert bg-green">
+          <span className="alert__about">{alertSuccess}</span>
+          <i className="alert__close icon-close" onClick={() => setAlertSuccess('')} />
+        </span>
+      )}
+      {alertError && (
+        <span className="alert">
+          <span className="alert__about">{alertError}</span>
+          <i className="alert__close icon-close" onClick={() => setAlertError('')} />
+        </span>
+      )}
     </div>
   );
 };

@@ -53,7 +53,7 @@ export const EditModal = function (projectTask: IEditModal) {
           <div className="edit-modal__members">
             <div className="edit-modal__member-list">
               {[...new Set(members)].map((e) => (
-                <TaskMember member={e} setRemove={setRemove} key={e} />
+                <TaskMember member={e} id={e} setRemove={setRemove} key={e} />
               ))}
             </div>
             {!addMember && (
@@ -76,7 +76,7 @@ export const EditModal = function (projectTask: IEditModal) {
         </div>
       )}
       {removeModal && (
-        <RemoveModal name={title} path={'test'} type={'task'} control={projectTask.control} />
+        <RemoveModal name={title} path={'test'} type={'Task'} control={projectTask.control} />
       )}
     </div>
   );

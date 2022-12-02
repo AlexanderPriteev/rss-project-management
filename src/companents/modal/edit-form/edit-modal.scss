@@ -90,13 +90,12 @@
 
     &-list{
       display: flex;
-      gap: 1rem;
+      flex-direction: column;
+      gap: 0.5rem;
       flex-wrap: wrap;
-      flex-grow: 1;
     }
     &-name{
-      white-space: normal;
-      font-weight: $f-bold;
+      white-space: nowrap;
     }
     &-remove{
       cursor: pointer;

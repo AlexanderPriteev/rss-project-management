@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { AddMember, IMember } from '../companents/add-member';
 import { LineInput } from '../../line-input';
 import { useTranslation } from 'react-i18next';
-import { createBoard, getUserBoards } from '../../../api/requests';
+import { createBoard } from '../../../api/requests';
 import { useDispatch, useSelector } from 'react-redux';
 import { reduxBoards, StateReduxInterface } from '../../../state';
 import { getDate } from '../../../methods/get-date';
 import { AlertModal } from '../../alert';
 import { IBoard } from '../../../pages/main/boards/board';
 
-type ModalType = 'Task' | 'Board';
+export type ModalType = 'Task' | 'Board' | 'Column';
 interface ICreateModal {
   type: ModalType;
   link?: string;
@@ -39,7 +39,7 @@ export const CreateModal = function (props: ICreateModal) {
     try {
       if (props.type === 'Board') {
         const users = newMembers.map((e) => e.id);
-        const usersName = newMembers.map((e) => e.str);
+        const usersName = newMembers.map((e) => e.name || e.login);
         const name = `${getDate()} - ${title}`;
         const newBoard = (await createBoard(token, name, data.user._id as string, users)) as IBoard;
         dispatch(

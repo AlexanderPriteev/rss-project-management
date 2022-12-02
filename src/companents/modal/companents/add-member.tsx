@@ -6,11 +6,13 @@ import { getUsers, IUser } from '../../../api/requests';
 
 export interface IMember {
   id: string;
-  str: string;
+  login: string;
+  name?: string;
 }
 
 interface IAddMember {
   setList: React.Dispatch<React.SetStateAction<IMember[]>>;
+  membersId?: string[];
 }
 
 export const AddMember = function (props: IAddMember) {
@@ -27,7 +29,7 @@ export const AddMember = function (props: IAddMember) {
   const add = async () => {
     if (user.login === current) {
       setAlertError(t('newMember:alert:you') as string);
-    } else if (!!members.find((e) => e.str === current)) {
+    } else if (!!members.find((e) => e.login === current)) {
       setAlertError(t('newMember:alert:added') as string);
     } else {
       try {
@@ -39,13 +41,17 @@ export const AddMember = function (props: IAddMember) {
         const currentUser = users.find((e) => e.login === current);
         if (!currentUser) {
           setAlertError(t('newMember:alert:none') as string);
+        } else if (props.membersId?.includes(currentUser._id as string)) {
+          setAlertError(t('newMember:alert:member') as string);
         } else {
           const value = {
             id: currentUser._id as string,
-            str: currentUser.login,
+            login: currentUser.login,
+            name: currentUser.name,
           };
-          setMembers([...members, value]);
-          props.setList([...members]);
+          const newUsers = [...members, value];
+          setMembers(newUsers);
+          props.setList(newUsers);
           setCurrent('');
         }
       } catch {
@@ -57,7 +63,9 @@ export const AddMember = function (props: IAddMember) {
   };
 
   const remove = (id: string) => {
-    setMembers([...members.filter((e) => e.id !== id)]);
+    const removeMember = [...members.filter((e) => e.id !== id)];
+    setMembers(removeMember);
+    props.setList(removeMember);
   };
 
   return (
@@ -67,7 +75,12 @@ export const AddMember = function (props: IAddMember) {
         {members.map((e) => (
           <div key={e.id} id={e.id} className="modal-add-member">
             <div className="modal-add-field-wrapper">
-              <input type="text" className="modal-add-field" defaultValue={e.str} readOnly={true} />
+              <input
+                type="text"
+                className="modal-add-field"
+                defaultValue={e.login}
+                readOnly={true}
+              />
             </div>
             <button className="edit-modal-btn icon-delete c-red" onClick={() => remove(e.id)}>
               {t('newMember:remove')}

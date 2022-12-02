@@ -4,13 +4,12 @@ import { AlertModal } from '../../alert';
 import { deleteBoard, deleteColumnById, deleteTask } from '../../../api/requests';
 import { useDispatch, useSelector } from 'react-redux';
 import { reduxBoards, StateReduxInterface } from '../../../state';
-
-export type removeType = 'task' | 'column' | 'board';
+import { ModalType } from '../create-form';
 
 export interface IRemoveModal {
   name: string;
   path: string;
-  type: removeType;
+  type: ModalType;
   control: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -26,19 +25,19 @@ export const RemoveModal = function (props: IRemoveModal) {
   const remove = async () => {
     try {
       switch (props.type) {
-        case 'task':
+        case 'Task':
           await deleteTask(token, props.path);
           break;
-        case 'column':
+        case 'Column':
           await deleteColumnById(token, props.path);
           break;
-        case 'board':
+        case 'Board':
           await deleteBoard(token, props.path);
           dispatch(reduxBoards(boards.filter((e) => e._id !== props.path)));
       }
       props.control(false);
     } catch {
-      setAlertError(t('create:alert') as string);
+      setAlertError(t('remove:alert') as string);
     }
   };
 

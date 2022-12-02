@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { RemoveModalWrap } from '../../../../companents/modal/remove-form/wrapper';
-import { EditModal } from '../../../../companents/modal/edit-form';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { EditModalBoard } from '../../../../companents/modal/edit-form/board';
+import { useSelector } from 'react-redux';
+import { StateReduxInterface } from '../../../../state';
 
 export interface IBoard {
   _id: string;
@@ -15,11 +17,11 @@ export interface IBoard {
 }
 
 export const Board = function (card: IBoard) {
+  const stateID = useSelector((state: StateReduxInterface) => state.user._id);
   const router = useNavigate();
   const { t } = useTranslation();
 
   const [boardId, headline] = Object.values(card);
-  const usersID = card.users;
   const count = card.count || 0;
   const ownerName = card.ownerName || '';
   const usersName = card.usersName || [];
@@ -47,9 +49,11 @@ export const Board = function (card: IBoard) {
           <span className="board-icon icon-pen" onClick={() => setEditModal(true)}>
             {t('main:board:edit')}
           </span>
-          <span className="board-icon icon-delete c-red" onClick={() => setRemoveModal(true)}>
-            {t('main:board:remove')}
-          </span>
+          {stateID === card.owner && (
+            <span className="board-icon icon-delete c-red" onClick={() => setRemoveModal(true)}>
+              {t('main:board:remove')}
+            </span>
+          )}
         </div>
       </div>
       <div className={`board__body ${hide && 'hide'}`}>
@@ -75,9 +79,9 @@ export const Board = function (card: IBoard) {
         </div>
       </div>
       {removeModal && (
-        <RemoveModalWrap name={title} path={boardId} type={'board'} control={setRemoveModal} />
+        <RemoveModalWrap name={title} path={boardId} type={'Board'} control={setRemoveModal} />
       )}
-      {editModal && <EditModal title={title} members={usersID} control={setEditModal} />}
+      {editModal && <EditModalBoard card={card} control={setEditModal} />}
     </div>
   );
 };

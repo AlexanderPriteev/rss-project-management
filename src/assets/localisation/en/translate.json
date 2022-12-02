@@ -116,15 +116,17 @@
   "edit": {
     "add": "add member",
     "remove": "remove",
-    "update": "update"
+    "update": "update",
+    "alert": "Failed to update board"
   },
   "newMember":{
     "title":"Add Member:",
     "add": "add",
     "remove": "remove",
-    "placeholder": "Type Name",
+    "placeholder": "Type Email",
     "alert": {
       "you": "You are a member by default",
+      "member": "Member already on the team",
       "added": "This member has already been added",
       "none": "This member not found in the system",
       "error": "This member could not be added"

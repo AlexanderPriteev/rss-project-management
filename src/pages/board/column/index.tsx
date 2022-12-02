@@ -1,17 +1,29 @@
 import React, { useState } from 'react';
 import { LineInput } from '../../../companents/line-input';
 import { ProjectTask } from './task';
-import { ICard } from '../../main/tasks/task';
 import { CreateModal } from '../../../companents/modal/create-form';
 import { useTranslation } from 'react-i18next';
+import { IColumn, ITask } from '../../../api/requests';
+import { IBoard } from '../../main/boards/board';
 
 interface IBoardCol {
-  tasks?: ICard[];
+  tasks?: ITask[];
+  column?: IColumn;
+  board?: IBoard;
 }
 
-export const BoardCol = function (taskList: IBoardCol) {
-  const [name, setName] = useState('Backlog');
+const colTasks = (tasks?: ITask[], column?: IColumn) => {
+  if (tasks && column) {
+    return tasks.filter((e) => e.columnId === column._id);
+  }
+  return [];
+};
+
+export const BoardCol = function (props: IBoardCol) {
+  const [name, setName] = useState(props.column?.title || 'Backlog');
   const [createModal, setCreateModal] = useState(false);
+  const [tasks, setTasks] = useState(colTasks(props.tasks, props.column));
+
   const { t } = useTranslation();
   return (
     <div className="project-col">
@@ -27,10 +39,9 @@ export const BoardCol = function (taskList: IBoardCol) {
       </div>
       <div className="project-col__body">
         <div className="project-col__tasks">
-          {taskList.tasks &&
-            taskList.tasks.map((e, i) => (
-              <ProjectTask key={`${i}-${new Date().getTime()}`} {...e} />
-            ))}
+          {tasks.map((e, i) => (
+            <ProjectTask key={`${i}-${new Date().getTime()}`} {...e} />
+          ))}
         </div>
         <button
           className="project-create project-create--task icon-add"

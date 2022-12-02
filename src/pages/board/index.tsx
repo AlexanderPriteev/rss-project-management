@@ -1,82 +1,102 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BoardCol } from './column';
-
-import { EditModal } from '../../companents/modal/edit-form';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCheckUser } from '../../api/checkAuth';
-
-export const tmpBoard = {
-  id: '1234',
-  title: 'Project 1 New Project',
-  description:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vestibulum pulvinar tincidunt. Maecenas et ipsum tempor, finibus odio sit amet, maximus tortor. Phasellus malesuada fringilla lacus vel volutpat. Nulla aliquam porta turpis eu bibendum. Praesent erat eros, ultricies vel arcu et, lacinia pharetra tellus.',
-  team: [
-    'Alexander Priteev',
-    'Wade Warren',
-    'Cameron Williamson',
-    'Jane Cooper',
-    'Brooklyn Simmons',
-    'Leslie Alexander',
-    'Jenny Wilson',
-  ],
-  date: '2022-11-12',
-  pm: 'Alexander Priteev',
-  countTasks: '9',
-};
-
-const tmpTasks = {
-  tasks: new Array(4).fill({
-    id: `${Math.floor(Math.random() * 100000)}`,
-    title: 'Task1 TO DO',
-    status: 'backlog',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vestibulum pulvinar tincidunt. Maecenas et ipsum tempor, finibus odio sit amet, maximus tortor.',
-    projectId: '0001',
-    projectName: 'Project 1 New Project',
-    members: ['Jane Cooper', 'Cameron Williamson', 'Cameron Williamson'],
-  }),
-};
+import { useLocation, Link, useParams } from 'react-router-dom';
+import { IBoard } from '../main/boards/board';
+import { AlertModal } from '../../companents/alert';
+import {
+  getBoardById,
+  getBoardColumn,
+  getBoardTaskSet,
+  getUsers,
+  IColumn,
+  ITask,
+  IUser,
+} from '../../api/requests';
+import { EditModalBoard } from '../../companents/modal/edit-form/board';
+import { getTitle } from '../../methods/get-title';
 
 export const ProjectBoard = function () {
-  useCheckUser();
-  const router = useNavigate();
   const { t } = useTranslation();
+  const boardId = useParams().id as string;
 
+  const stateData = useLocation().state as IBoard | null;
+  const [boardState, setBoardState] = useState(stateData);
+  const [columns, setColumns] = useState([] as IColumn[]);
+  const [tasks, setTasks] = useState([] as ITask[]);
+  const [isLoad, setIsLoad] = useState(false);
+  const [alertError, setAlertError] = useState('');
   const [editProject, setEditProject] = useState(false);
-  const [cols, setCols] = useState([] as string[]);
-  const createCol = () => {
-    setCols([...cols, `${new Date().getTime()}`]);
-  };
+
+  try {
+    useEffect(() => {
+      if (isLoad) return;
+      setIsLoad(true);
+
+      const token = localStorage.getItem('token') as string;
+      const loadBoard = async () => {
+        const loadBoard = await getBoardById(token, boardId);
+        const allUsers = await getUsers(token);
+        loadBoard.ownerName = allUsers.find((e) => e._id === loadBoard.owner)?._id;
+        loadBoard.usersName = allUsers
+          .filter((e) => loadBoard.users.includes(e._id as string))
+          .map((e) => e.name);
+        setBoardState(loadBoard);
+      };
+      const loadTasks = async () => {
+        const loadColumns = (await getBoardColumn(token, boardId)) as IColumn[];
+        const loadTasksSet = (await getBoardTaskSet(token, boardId)) as ITask[];
+        const users = await getUsers(token);
+        loadTasksSet.forEach((task) => {
+          task.users.forEach((user) => {
+            const curUser = users.find((e) => e._id === user) as IUser;
+            task.usersName = [...(task.usersName || []), curUser.name];
+            task.usersLogin = [...(task.usersName || []), curUser.login];
+          });
+        });
+        setColumns(loadColumns);
+        setTasks(loadTasksSet);
+      };
+
+      if (!boardState) {
+        void loadBoard();
+      }
+      void loadTasks();
+    }, [boardId, boardState, columns, isLoad]);
+  } catch {
+    setAlertError(t('board:alert:default') as string);
+    setTimeout(() => setAlertError(''), 3000);
+  }
+
+  useCheckUser();
+
   return (
     <div className="project">
-      <div className="project__headline">
-        <span className="project-title icon-prev-arrow" onClick={() => router(`/projects`)}>
-          <span className="project-title__text">{tmpBoard.title}</span>
-        </span>
-        <span className="project-board-edit icon-book" onClick={() => setEditProject(true)}>
-          {t('board:project')}
-        </span>
-      </div>
-      <div className="project-wrapper">
-        <div className="project-col-list">
-          <BoardCol {...tmpTasks} />
-          {cols.map((e) => (
-            <BoardCol key={e} />
-          ))}
-        </div>
-        <button className="project-create icon-add" onClick={() => createCol()}>
-          {t('board:column')}
-        </button>
-      </div>
-      {editProject && (
-        <EditModal
-          title={tmpBoard.title}
-          description={tmpBoard.description}
-          members={tmpBoard.team}
-          control={setEditProject}
-        />
+      {boardState && (
+        <>
+          <div className="project__headline">
+            <Link to="/" className="project-title icon-prev-arrow">
+              <span className="project-title__text">{getTitle(boardState.title)}</span>
+            </Link>
+            <span className="project-board-edit icon-book" onClick={() => setEditProject(true)}>
+              {t('board:project')}
+            </span>
+          </div>
+          <div className="project-wrapper">
+            <div className="project-col-list">
+              {columns.map((e) => (
+                <BoardCol key={e._id} column={e} tasks={tasks} board={boardState} />
+              ))}
+            </div>
+            <button className="project-create icon-add" onClick={() => []}>
+              {t('board:column')}
+            </button>
+          </div>
+          {editProject && <EditModalBoard card={boardState} control={setEditProject} />}
+        </>
       )}
+      {alertError && <AlertModal title={alertError} setTitle={setAlertError} />}
     </div>
   );
 };

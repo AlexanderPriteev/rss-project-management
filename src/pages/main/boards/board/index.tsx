@@ -34,9 +34,9 @@ export const Board = function (card: IBoard) {
   const [removeModal, setRemoveModal] = useState(false);
 
   return (
-    <div className="board" id={boardId}>
+    <div className="board">
       <div className="board__head">
-        <h3 className="board-title" onClick={() => router(`/board`)}>
+        <h3 className="board-title" onClick={() => router(`/board-${boardId}`, { state: card })}>
           {title}
         </h3>
         <div className="board-icon-list">

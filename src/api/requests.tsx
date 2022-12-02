@@ -126,6 +126,13 @@ export const getUserBoards = async (token: string, userId: string) => {
 
 //Columns
 
+export interface IColumn {
+  _id: string;
+  title: string;
+  order: number;
+  boardId: string;
+}
+
 export const getBoardColumn = async (token: string, boardId: string) => {
   return await request(`${base}/boards/${boardId}/columns`, 'GET', null, {
     'Content-type': 'application/json',
@@ -211,11 +218,16 @@ export const createColumnSet = async (
 
 //Tasks
 export interface ITask {
+  _id?: string;
   title: string;
   order: number;
   description: string;
+  boardId?: string;
+  columnId?: string;
   usageId: string;
   users: string[];
+  usersName?: string[];
+  usersLogin?: string[];
 }
 
 export const getColumnTasks = async (token: string, boardId: string, columnId: string) => {
@@ -300,7 +312,7 @@ export const updateTaskSet = async (token: string, taskSet: ITaskSet) => {
 };
 
 export const getBoardTaskSet = async (token: string, boardId: string) => {
-  return await request(`${base}/taskSet/${boardId}`, 'GET', null, {
+  return await request(`${base}/tasksSet/${boardId}`, 'GET', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });

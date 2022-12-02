@@ -150,6 +150,9 @@
   "board": {
     "project": "details / edit",
     "task": "Create Task",
-    "column": "Create Column"
+    "column": "Create Column",
+    "alert": {
+      "default": "An error occurred while loading"
+    }
   }
 }

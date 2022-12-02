@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
-import { ICard } from '../../../main/tasks/task';
-import { EditModal } from '../../../../companents/modal/edit-form';
+import React, { useEffect, useState } from 'react';
+import { EditModal, IEditModal } from '../../../../companents/modal/edit-form';
+import { getUsersById, ITask } from '../../../../api/requests';
 
-export const ProjectTask = function (projectTask: ICard) {
+export const ProjectTask = function (props: ITask) {
   const [modal, setModal] = useState(false);
 
-  const modalData = {
-    title: projectTask.title,
-    description: projectTask.description,
-    members: projectTask.members,
+  const modalData: IEditModal = {
+    title: props.title,
+    description: props.description,
+    members: props.usersName as string[],
+    usersId: props.users,
     control: setModal,
   };
 
   return (
     <>
       <div className="project-task" onClick={() => setModal(true)}>
-        {projectTask.title}
+        {props.title}
       </div>
       {modal && <EditModal {...modalData} />}
     </>

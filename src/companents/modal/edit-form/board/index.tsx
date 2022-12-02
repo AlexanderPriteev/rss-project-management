@@ -73,6 +73,7 @@ export const EditModalBoard = function (props: IEditModal) {
       );
     } catch (e) {
       setAlertError(t('edit:alert') as string);
+      setTimeout(() => setAlertError(''), 3000);
     }
     close();
   };

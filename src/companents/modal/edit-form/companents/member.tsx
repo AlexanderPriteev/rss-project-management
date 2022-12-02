@@ -1,5 +1,4 @@
 import React from 'react';
-import { IMember } from '../../companents/add-member';
 import { useSelector } from 'react-redux';
 import { StateReduxInterface } from '../../../../state';
 
@@ -7,7 +6,7 @@ interface ITaskMember {
   id: string;
   member: string;
   setRemove: React.Dispatch<React.SetStateAction<string>>;
-  userId?: string;
+  userId: string;
 }
 
 export const TaskMember = function (props: ITaskMember) {

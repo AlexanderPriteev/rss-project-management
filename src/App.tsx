@@ -33,7 +33,7 @@ function App() {
           <Route path="/" element={<Index />}>
             <Route path="/profile" element={<Profile />} />
             <Route index element={<Main />} />
-            <Route path="/board" element={<ProjectBoard />} />
+            <Route path="/board-:id" element={<ProjectBoard />} />
             <Route path="*" element={<Main />} />
           </Route>
         )}

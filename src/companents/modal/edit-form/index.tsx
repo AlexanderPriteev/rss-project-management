@@ -5,18 +5,23 @@ import { TaskTextarea } from './companents/textarea';
 import { AddMember, IMember } from '../companents/add-member';
 import { RemoveModal } from '../remove-form';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { StateReduxInterface } from '../../../state';
 
-interface IEditModal {
+export interface IEditModal {
   title: string;
   description?: string;
   members: string[];
+  usersId: string[];
   control: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const EditModal = function (projectTask: IEditModal) {
-  const [title, setTitle] = useState(projectTask.title);
-  const [desc, setDesc] = useState(projectTask.description || '');
-  const [members, setMembers] = useState(projectTask.members);
+export const EditModal = function (props: IEditModal) {
+  const data = useSelector((state: StateReduxInterface) => state);
+  const [title, setTitle] = useState(props.title);
+  const [desc, setDesc] = useState(props.description || '');
+  const [members, setMembers] = useState(props.members);
+  const [membersID, setMembersID] = useState(props.usersId);
   const [remove, setRemove] = useState('');
   const [addMember, setAddMember] = useState(false);
   const [removeModal, setRemoveModal] = useState(false);
@@ -27,7 +32,7 @@ export const EditModal = function (projectTask: IEditModal) {
   if (!body.contains('ov-hidden')) body.add('ov-hidden');
   const close = () => {
     document.body.classList.remove('ov-hidden');
-    projectTask.control(false);
+    props.control(false);
   };
 
   useEffect(() => {
@@ -52,8 +57,14 @@ export const EditModal = function (projectTask: IEditModal) {
           {desc && <TaskTextarea description={desc} setDescription={setDesc} />}
           <div className="edit-modal__members">
             <div className="edit-modal__member-list">
-              {[...new Set(members)].map((e) => (
-                <TaskMember member={e} id={e} setRemove={setRemove} key={e} />
+              {membersID.map((e, i) => (
+                <TaskMember
+                  member={members[i]}
+                  id={e}
+                  userId={data.user._id as string}
+                  setRemove={setRemove}
+                  key={e}
+                />
               ))}
             </div>
             {!addMember && (
@@ -76,7 +87,7 @@ export const EditModal = function (projectTask: IEditModal) {
         </div>
       )}
       {removeModal && (
-        <RemoveModal name={title} path={'test'} type={'Task'} control={projectTask.control} />
+        <RemoveModal name={title} path={'test'} type={'Task'} control={props.control} />
       )}
     </div>
   );

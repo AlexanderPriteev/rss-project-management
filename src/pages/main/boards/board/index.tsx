@@ -4,22 +4,29 @@ import { EditModal } from '../../../../companents/modal/edit-form';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-//TODO
-interface IBoard {
-  id: string;
+export interface IBoard {
+  _id: string;
   title: string;
-  description: string;
-  team: string[];
-  date: string;
-  pm: string;
-  countTasks: string;
+  users: string[];
+  owner: string;
+  count?: number;
+  ownerName?: string;
+  usersName?: string[];
 }
 
 export const Board = function (card: IBoard) {
   const router = useNavigate();
   const { t } = useTranslation();
 
-  const [boardId, title, description, team, date, pm, count] = Object.values(card);
+  const [boardId, headline] = Object.values(card);
+  const usersID = card.users;
+  const count = card.count || 0;
+  const ownerName = card.ownerName || '';
+  const usersName = card.usersName || [];
+
+  const arrHeadline = headline.split(' - ');
+  const date = arrHeadline.splice(0, 1);
+  const title = arrHeadline.join(' - ');
   const [hide, setHide] = useState(true);
   const [editModal, setEditModal] = useState(false);
   const [removeModal, setRemoveModal] = useState(false);
@@ -47,31 +54,30 @@ export const Board = function (card: IBoard) {
       </div>
       <div className={`board__body ${hide && 'hide'}`}>
         <div className="board__col-main">
-          <p className="board-about">{description}</p>
-          <div className="board-row">
-            <span className="board-subtitle">{t('main:board:team')}</span>
-            <span className="board-data">{team.join(', ')}</span>
-          </div>
-        </div>
-        <div className="board__col-about">
           <div className="board-row">
             <span className="board-subtitle">{t('main:board:date')}</span>
             <span className="board-data">{date}</span>
           </div>
           <div className="board-row">
-            <span className="board-subtitle">{t('main:board:pm')}</span>
-            <span className="board-data">{pm}</span>
-          </div>
-          <div className="board-row">
             <span className="board-subtitle">{t('main:board:count')}</span>
             <span className="board-data">{count}</span>
           </div>
+          <div className="board-row">
+            <span className="board-subtitle">{t('main:board:pm')}</span>
+            <span className="board-data">{ownerName}</span>
+          </div>
+          {!!usersName.length && (
+            <div className="board-row">
+              <span className="board-subtitle">{t('main:board:team')}</span>
+              <span className="board-data">{usersName.join(', ')}</span>
+            </div>
+          )}
         </div>
       </div>
-      {removeModal && <RemoveModalWrap name={title} control={setRemoveModal} />}
-      {editModal && (
-        <EditModal title={title} description={description} members={team} control={setEditModal} />
+      {removeModal && (
+        <RemoveModalWrap name={title} path={boardId} type={'board'} control={setRemoveModal} />
       )}
+      {editModal && <EditModal title={title} members={usersID} control={setEditModal} />}
     </div>
   );
 };

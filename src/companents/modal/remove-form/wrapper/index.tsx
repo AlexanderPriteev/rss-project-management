@@ -1,12 +1,7 @@
 import React from 'react';
-import { RemoveModal } from '../index';
+import { IRemoveModal, RemoveModal } from '../index';
 
-interface IRemoveWrap {
-  name: string;
-  control: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export const RemoveModalWrap = function (props: IRemoveWrap) {
+export const RemoveModalWrap = function (props: IRemoveModal) {
   const body = document.body.classList;
   if (!body.contains('ov-hidden')) body.add('ov-hidden');
   const close = () => {
@@ -15,7 +10,7 @@ export const RemoveModalWrap = function (props: IRemoveWrap) {
   };
   return (
     <div className="modal-wrapper" onClick={close}>
-      <RemoveModal name={props.name} />
+      <RemoveModal {...props} />
     </div>
   );
 };

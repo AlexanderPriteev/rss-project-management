@@ -41,7 +41,7 @@
     },
     "alert": {
       "field": "The field cannot be empty",
-      "user": "Inappropriate e-mail or password",
+      "user": "Incorrect e-mail or password",
       "db": "Failed to enter"
     }
   },
@@ -108,6 +108,9 @@
       "search": "SEARCH TASK",
       "status": "status:",
       "link": ["Go to "," board"]
+    },
+    "alert": {
+      "boards": "Failed to load boards"
     }
   },
   "edit": {
@@ -119,20 +122,28 @@
     "title":"Add Member:",
     "add": "add",
     "remove": "remove",
-    "placeholder": "Type Name"
+    "placeholder": "Type Name",
+    "alert": {
+      "you": "You are a member by default",
+      "added": "This member has already been added",
+      "none": "This member not found in the system",
+      "error": "This member could not be added"
+    }
   },
   "remove": {
     "title": "Are you absolutely sure?",
     "subtitle": "This action cannot be undone. This will permanently delete the",
-    "about": ["Please type", "to confirm."],
+    "about": ["Please type ", " to confirm."],
     "placeholder": "Type",
-    "btn": "Remove"
+    "btn": "Remove",
+    "alert": "Failed to delete"
   },
   "create": {
     "type": ["Task", "Board"],
     "name": "Name",
     "placeholder": ["Type ", " descriptions"],
-    "btn": "Create "
+    "btn": "Create ",
+    "alert": "Failed to create. Try again."
   },
   "board": {
     "project": "details / edit",

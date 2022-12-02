@@ -104,7 +104,7 @@ export const updateBoard = async (
 };
 
 export const deleteBoard = async (token: string, boardId: string) => {
-  return await request(`${base}/boardsSet/${boardId}`, 'DELETE', null, {
+  return await request(`${base}/boards/${boardId}`, 'DELETE', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
@@ -125,6 +125,7 @@ export const getUserBoards = async (token: string, userId: string) => {
 };
 
 //Columns
+
 export const getBoardColumn = async (token: string, boardId: string) => {
   return await request(`${base}/boards/${boardId}/columns`, 'GET', null, {
     'Content-type': 'application/json',
@@ -174,8 +175,9 @@ export const updateColumn = async (
   );
 };
 
-export const deleteColumnById = async (token: string, boardId: string, columnId: string) => {
-  return await request(`${base}/boards/${boardId}/columns/${columnId}`, 'DELETE', null, {
+//path boards/${boardId}/columns/${columnId}
+export const deleteColumnById = async (token: string, path: string) => {
+  return await request(`${base}/${path}`, 'DELETE', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
@@ -270,21 +272,12 @@ export const updateTask = async (
   );
 };
 
-export const deleteTask = async (
-  token: string,
-  boardId: string,
-  columnId: string,
-  taskId: string
-) => {
-  return await request(
-    `${base}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
-    'DELETE',
-    null,
-    {
-      'Content-type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    }
-  );
+//path boards/${boardId}/columns/${columnId}/tasks/${taskId}
+export const deleteTask = async (token: string, path: string) => {
+  return await request(`${base}/${path}`, 'DELETE', null, {
+    'Content-type': 'application/json',
+    Authorization: `Bearer ${token}`,
+  });
 };
 
 export const getTaskSet = async (token: string) => {

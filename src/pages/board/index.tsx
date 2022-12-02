@@ -1,10 +1,29 @@
 import React, { useState } from 'react';
 import { BoardCol } from './column';
-import { tmpBoard } from '../main/boards';
+
 import { EditModal } from '../../companents/modal/edit-form';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCheckUser } from '../../api/checkAuth';
+
+export const tmpBoard = {
+  id: '1234',
+  title: 'Project 1 New Project',
+  description:
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vestibulum pulvinar tincidunt. Maecenas et ipsum tempor, finibus odio sit amet, maximus tortor. Phasellus malesuada fringilla lacus vel volutpat. Nulla aliquam porta turpis eu bibendum. Praesent erat eros, ultricies vel arcu et, lacinia pharetra tellus.',
+  team: [
+    'Alexander Priteev',
+    'Wade Warren',
+    'Cameron Williamson',
+    'Jane Cooper',
+    'Brooklyn Simmons',
+    'Leslie Alexander',
+    'Jenny Wilson',
+  ],
+  date: '2022-11-12',
+  pm: 'Alexander Priteev',
+  countTasks: '9',
+};
 
 const tmpTasks = {
   tasks: new Array(4).fill({

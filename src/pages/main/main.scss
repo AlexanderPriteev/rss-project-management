@@ -66,6 +66,18 @@
     &:nth-child(even) {
       background-color: rgba($primary-50, .2);
     }
+    &-list{
+      overflow: auto;
+      max-height: calc(100vh - 28rem);
+      min-height: 30rem;
+      &::-webkit-scrollbar {
+        width: .6rem;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba($primary-700, .2);
+        border-radius: .4rem;
+      }
+    }
     &__headline{
       display: flex;
       justify-content: space-between;
@@ -129,6 +141,18 @@
 
   &:nth-child(even) {
     background-color: rgba($primary-50, .2);
+  }
+  &-list{
+    overflow: auto;
+    max-height: calc(100vh - 28rem);
+    min-height: 30rem;
+    &::-webkit-scrollbar {
+      width: .6rem;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba($primary-700, .2);
+      border-radius: .4rem;
+    }
   }
 
   &__head, &__body {

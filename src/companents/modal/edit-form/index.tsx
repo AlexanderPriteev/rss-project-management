@@ -2,24 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { LineInput } from '../../line-input';
 import { TaskMember } from './companents/member';
 import { TaskTextarea } from './companents/textarea';
-import { AddMember } from '../companents/add-member';
+import { AddMember, IMember } from '../companents/add-member';
 import { RemoveModal } from '../remove-form';
 import { useTranslation } from 'react-i18next';
 
 interface IEditModal {
   title: string;
-  description: string;
+  description?: string;
   members: string[];
   control: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const EditModal = function (projectTask: IEditModal) {
   const [title, setTitle] = useState(projectTask.title);
-  const [desc, setDesc] = useState(projectTask.description);
+  const [desc, setDesc] = useState(projectTask.description || '');
   const [members, setMembers] = useState(projectTask.members);
   const [remove, setRemove] = useState('');
   const [addMember, setAddMember] = useState(false);
   const [removeModal, setRemoveModal] = useState(false);
+  const [newMembers, setNewMembers] = useState([] as IMember[]);
   const { t } = useTranslation();
 
   const body = document.body.classList;
@@ -48,7 +49,7 @@ export const EditModal = function (projectTask: IEditModal) {
             wrapperStyles={'edit-modal__title'}
           />
 
-          <TaskTextarea description={desc} setDescription={setDesc} />
+          {desc && <TaskTextarea description={desc} setDescription={setDesc} />}
           <div className="edit-modal__members">
             <div className="edit-modal__member-list">
               {[...new Set(members)].map((e) => (
@@ -61,7 +62,7 @@ export const EditModal = function (projectTask: IEditModal) {
               </span>
             )}
           </div>
-          {addMember && <AddMember />}
+          {addMember && <AddMember setList={setNewMembers} />}
 
           <div className="edit-modal__controls">
             <button className="edit-modal-btn icon-check">{t('edit:update')}</button>
@@ -74,7 +75,9 @@ export const EditModal = function (projectTask: IEditModal) {
           </div>
         </div>
       )}
-      {removeModal && <RemoveModal name={title} />}
+      {removeModal && (
+        <RemoveModal name={title} path={'test'} type={'task'} control={projectTask.control} />
+      )}
     </div>
   );
 };

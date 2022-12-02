@@ -1,12 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { AlertModal } from '../../alert';
+import { deleteBoard, deleteColumnById, deleteTask } from '../../../api/requests';
+import { useDispatch, useSelector } from 'react-redux';
+import { reduxBoards, StateReduxInterface } from '../../../state';
 
-interface IRemoveModal {
+export type removeType = 'task' | 'column' | 'board';
+
+export interface IRemoveModal {
   name: string;
+  path: string;
+  type: removeType;
+  control: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const RemoveModal = function (props: IRemoveModal) {
   const { t } = useTranslation();
+  const token = localStorage.getItem('token') as string;
+  const boards = useSelector((state: StateReduxInterface) => state.boards);
+  const dispatch = useDispatch();
+
+  const [value, setValue] = useState('');
+  const [alertError, setAlertError] = useState('');
+
+  const remove = async () => {
+    try {
+      switch (props.type) {
+        case 'task':
+          await deleteTask(token, props.path);
+          break;
+        case 'column':
+          await deleteColumnById(token, props.path);
+          break;
+        case 'board':
+          await deleteBoard(token, props.path);
+          dispatch(reduxBoards(boards.filter((e) => e._id !== props.path)));
+      }
+      props.control(false);
+    } catch {
+      setAlertError(t('create:alert') as string);
+    }
+  };
+
   return (
     <div className="remove-modal" onClick={(e) => e.stopPropagation()}>
       <div className="modal-body">
@@ -23,11 +58,18 @@ export const RemoveModal = function (props: IRemoveModal) {
           type="text"
           className="remove-modal-field"
           placeholder={t('remove:placeholder') as string}
+          onChange={(e) => setValue(e.target.value)}
         />
       </div>
       <div className="modal-footer">
-        <button className="modal-btn bg-red">{t('remove:btn')}</button>
+        <button
+          className={`modal-btn bg-red${value !== props.name ? ' disabled' : ''}`}
+          onClick={() => remove()}
+        >
+          {t('remove:btn')}
+        </button>
       </div>
+      {alertError && <AlertModal title={alertError} setTitle={setAlertError} />}
     </div>
   );
 };

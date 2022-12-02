@@ -1,27 +1,63 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { StateReduxInterface } from '../../../state';
+import { getUsers, IUser } from '../../../api/requests';
 
-interface IStringKey {
+export interface IMember {
+  id: string;
   str: string;
-  key: string;
 }
 
-export const AddMember = function () {
-  const [members, setMembers] = useState([] as IStringKey[]);
-  const [current, setCurrent] = useState('');
+interface IAddMember {
+  setList: React.Dispatch<React.SetStateAction<IMember[]>>;
+}
+
+export const AddMember = function (props: IAddMember) {
+  const token = localStorage.getItem('token') as string;
+  const user = useSelector((state: StateReduxInterface) => state.user);
   const { t } = useTranslation();
 
-  const add = () => {
-    const value = {
-      str: current,
-      key: `${new Date().getTime()}`,
-    };
-    setMembers([...members, value]);
-    setCurrent('');
+  const [members, setMembers] = useState([] as IMember[]);
+  const [current, setCurrent] = useState('');
+  const [usersList, setUserList] = useState([] as IUser[]);
+
+  const [alertError, setAlertError] = useState('');
+
+  const add = async () => {
+    if (user.login === current) {
+      setAlertError(t('newMember:alert:you') as string);
+    } else if (!!members.find((e) => e.str === current)) {
+      setAlertError(t('newMember:alert:added') as string);
+    } else {
+      try {
+        let users = [...usersList];
+        if (!usersList.length) {
+          users = await getUsers(token);
+          setUserList(users);
+        }
+        const currentUser = users.find((e) => e.login === current);
+        if (!currentUser) {
+          setAlertError(t('newMember:alert:none') as string);
+        } else {
+          const value = {
+            id: currentUser._id as string,
+            str: currentUser.login,
+          };
+          setMembers([...members, value]);
+          props.setList([...members]);
+          setCurrent('');
+        }
+      } catch {
+        setAlertError(t('newMember:alert:error') as string);
+      }
+    }
+
+    setTimeout(() => setAlertError(''), 3000);
   };
 
   const remove = (id: string) => {
-    setMembers([...members.filter((e) => e.key !== id)]);
+    setMembers([...members.filter((e) => e.id !== id)]);
   };
 
   return (
@@ -29,16 +65,11 @@ export const AddMember = function () {
       <span className="modal-add-title">{t('newMember:title')}</span>
       <div className="modal-add-members">
         {members.map((e) => (
-          <div key={e.key} id={e.key} className="modal-add-member">
+          <div key={e.id} id={e.id} className="modal-add-member">
             <div className="modal-add-field-wrapper">
-              <input
-                type="text"
-                className="modal-add-field"
-                defaultValue={e.str}
-                placeholder={t('newMember:placeholder') as string}
-              />
+              <input type="text" className="modal-add-field" defaultValue={e.str} readOnly={true} />
             </div>
-            <button className="edit-modal-btn icon-delete c-red" onClick={() => remove(e.key)}>
+            <button className="edit-modal-btn icon-delete c-red" onClick={() => remove(e.id)}>
               {t('newMember:remove')}
             </button>
           </div>
@@ -59,6 +90,12 @@ export const AddMember = function () {
           </button>
         </div>
       </div>
+      {alertError && (
+        <span className="alert">
+          <span className="alert__about">{alertError}</span>
+          <i className="alert__close icon-close" onClick={() => setAlertError('')} />
+        </span>
+      )}
     </div>
   );
 };

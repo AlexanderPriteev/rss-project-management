@@ -35,8 +35,8 @@ export const Login = function () {
         switch ((e as Error).message) {
           case '401':
             setAlert(t('login:alert:user') as string);
-            setAlertMail(t('login:alert:field') as string);
-            setAlertPass(t('login:alert:field') as string);
+            setAlertMail(t('login:alert:user') as string);
+            setAlertPass(t('login:alert:user') as string);
             break;
           default:
             setAlert(t('login:alert:db') as string);

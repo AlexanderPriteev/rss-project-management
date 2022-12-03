@@ -113,4 +113,17 @@
       opacity: .7;
     }
   }
+
+  &-select{
+      line-height: 1.8rem;
+      font-size: 1.4rem;
+      font-weight: $f-bold;
+      background-color: transparent;
+      outline: none;
+      border: none;
+      width: 100%;
+      border-bottom: .1rem solid rgba($primary-900, .4);
+      color: $txt-black;
+      padding: 0;
+  }
 }

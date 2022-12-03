@@ -20,12 +20,14 @@ export const RemoveModal = function (props: IRemoveModal) {
   const data = useSelector((state: StateReduxInterface) => state);
   const dispatch = useDispatch();
 
+  const [value, setValue] = useState('');
+  const [alertError, setAlertError] = useState('');
+
   const removeColumn = async (colorId: string) => {
     try {
       const boardId = data.project.board?._id as string;
       const columnId = colorId;
       const path = `boards/${boardId}/columns/${columnId}`;
-      console.log(path);
       const tasksId = colTasks(data.project.tasks, columnId).map((e) => e._id);
       await deleteColumnById(token, path);
       const columns = data.project.columns
@@ -46,9 +48,6 @@ export const RemoveModal = function (props: IRemoveModal) {
       setAlertError(t('remove:alert') as string);
     }
   };
-
-  const [value, setValue] = useState('');
-  const [alertError, setAlertError] = useState('');
 
   const remove = async () => {
     try {

@@ -35,7 +35,7 @@ export const Board = function (card: IBoard) {
   const [removeModal, setRemoveModal] = useState(false);
 
   const boardLink = () => {
-    dispatch(reduxProject({ ...data.project, board: card }));
+    dispatch(reduxProject({ board: card, tasks: [], columns: [] }));
     router(`/board-${boardId}`);
   };
 

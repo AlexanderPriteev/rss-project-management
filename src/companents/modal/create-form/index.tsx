@@ -2,18 +2,20 @@ import React, { useState } from 'react';
 import { AddMember, IMember } from '../companents/add-member';
 import { LineInput } from '../../line-input';
 import { useTranslation } from 'react-i18next';
-import { createBoard } from '../../../api/requests';
+import { createBoard, createTask, getColumnTasks, ITask } from '../../../api/requests';
 import { useDispatch, useSelector } from 'react-redux';
-import { reduxBoards, StateReduxInterface } from '../../../state';
+import { reduxBoards, reduxProject, StateReduxInterface } from '../../../state';
 import { getDate } from '../../../methods/get-date';
 import { AlertModal } from '../../alert';
 import { IBoard } from '../../../pages/main/boards/board';
+import { SelectMember } from '../companents/select-member';
 
 export type ModalType = 'Task' | 'Board' | 'Column';
 interface ICreateModal {
   type: ModalType;
   link?: string;
   control: React.Dispatch<React.SetStateAction<boolean>>;
+  columnId?: string;
 }
 
 export const CreateModal = function (props: ICreateModal) {
@@ -23,6 +25,7 @@ export const CreateModal = function (props: ICreateModal) {
   const { t } = useTranslation();
 
   const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [newMembers, setNewMembers] = useState([] as IMember[]);
   const [alertError, setAlertError] = useState('');
   const type = t(`create:type:${+(props.type !== 'Task')}`);
@@ -56,6 +59,27 @@ export const CreateModal = function (props: ICreateModal) {
             },
           ])
         );
+      } else if (props.type === 'Task') {
+        const usersId = newMembers.map((e) => e.id);
+        const usersName = newMembers.map((e) => e.login);
+        const path = `boards/${data.project.board?._id}/columns/${props.columnId}/tasks`;
+        const order = ((await getColumnTasks(token, path)) as ITask[]).length;
+        const task: ITask = {
+          title: title,
+          order: order,
+          description: description,
+          userId: data.user._id as string,
+          users: usersId,
+        };
+        const newTask = (await createTask(token, path, task)) as ITask;
+        const updateTask = {
+          ...newTask,
+          usersName: usersName,
+          owner: data.user.name,
+          board: data.project.board,
+          columnId: props.columnId,
+        };
+        dispatch(reduxProject({ ...data.project, tasks: [...data.project.tasks, updateTask] }));
       }
       close();
     } catch {
@@ -75,12 +99,20 @@ export const CreateModal = function (props: ICreateModal) {
             wrapperStyles={'create-modal-field'}
           />
           {props.type === 'Task' ? (
-            <textarea
-              className="create-modal-area"
-              placeholder={`${t('create:placeholder:0')}${type.toLowerCase()}${t(
-                'create:placeholder:1'
-              )}`}
-            />
+            <>
+              <textarea
+                className="create-modal-area"
+                placeholder={`${t('create:placeholder:0')}${type.toLowerCase()}${t(
+                  'create:placeholder:1'
+                )}`}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+              <SelectMember
+                membersId={data.project.board?.users as string[]}
+                membersName={data.project.board?.usersName as string[]}
+                setList={setNewMembers}
+              />
+            </>
           ) : (
             <AddMember setList={setNewMembers} />
           )}

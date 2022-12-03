@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { BoardCol } from './column';
 import { useTranslation } from 'react-i18next';
 import { useCheckUser } from '../../api/checkAuth';
@@ -31,7 +31,7 @@ export const ProjectBoard = function () {
   const [editProject, setEditProject] = useState(false);
   const [isLoad, setIsLoad] = useState(false);
 
-  useEffect(() => {
+  useMemo(() => {
     if (isLoad) return;
     setIsLoad(true);
 
@@ -65,14 +65,15 @@ export const ProjectBoard = function () {
             task.usersName = [...(task.usersName || []), curUser.name];
             task.usersLogin = [...(task.usersName || []), curUser.login];
           });
+          task.owner = allUsers.find((e) => e._id === task.userId)?.name;
         });
+
         dispatch(reduxProject({ board: curBoard, columns: columns, tasks: tasks }));
       } catch {
         setAlertError(t('board:alert:default') as string);
         setTimeout(() => setAlertError(''), 3000);
       }
     };
-
     if (!data.project.board) {
       void loadBoard();
     } else if (!data.project.columns.length) {

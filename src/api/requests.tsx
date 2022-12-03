@@ -228,29 +228,27 @@ export interface ITask {
   description: string;
   boardId?: string;
   columnId?: string;
-  usageId: string;
+  userId: string;
+  owner?: string;
   users: string[];
   usersName?: string[];
   usersLogin?: string[];
 }
 
-export const getColumnTasks = async (token: string, boardId: string, columnId: string) => {
-  return await request(`${base}boards/${boardId}/columns/${columnId}/tasks`, 'GET', null, {
+//path boards/${boardId}/columns/${columnId}/tasks
+export const getColumnTasks = async (token: string, path: string) => {
+  return await request(`${base}/${path}`, 'GET', null, {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });
 };
 
-export const createTask = async (token: string, boardId: string, columnId: string, task: ITask) => {
-  return await request(
-    `${base}/boards/${boardId}/columns/${columnId}/tasks`,
-    'POST',
-    JSON.stringify(task),
-    {
-      'Content-type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    }
-  );
+//path boards/${boardId}/columns/${columnId}/tasks
+export const createTask = async (token: string, path: string, task: ITask) => {
+  return await request(`${base}/${path}`, 'POST', JSON.stringify(task), {
+    'Content-type': 'application/json',
+    Authorization: `Bearer ${token}`,
+  });
 };
 
 export const getTaskById = async (

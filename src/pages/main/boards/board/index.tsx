@@ -3,8 +3,8 @@ import { RemoveModalWrap } from '../../../../companents/modal/remove-form/wrappe
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { EditModalBoard } from '../../../../companents/modal/edit-form/board';
-import { useSelector } from 'react-redux';
-import { StateReduxInterface } from '../../../../state';
+import { useDispatch, useSelector } from 'react-redux';
+import { reduxProject, StateReduxInterface } from '../../../../state';
 
 export interface IBoard {
   _id: string;
@@ -17,7 +17,8 @@ export interface IBoard {
 }
 
 export const Board = function (card: IBoard) {
-  const stateID = useSelector((state: StateReduxInterface) => state.user._id);
+  const data = useSelector((state: StateReduxInterface) => state);
+  const dispatch = useDispatch();
   const router = useNavigate();
   const { t } = useTranslation();
 
@@ -33,10 +34,15 @@ export const Board = function (card: IBoard) {
   const [editModal, setEditModal] = useState(false);
   const [removeModal, setRemoveModal] = useState(false);
 
+  const boardLink = () => {
+    dispatch(reduxProject({ ...data.project, board: card }));
+    router(`/board-${boardId}`);
+  };
+
   return (
     <div className="board">
       <div className="board__head">
-        <h3 className="board-title" onClick={() => router(`/board-${boardId}`, { state: card })}>
+        <h3 className="board-title" onClick={() => boardLink()}>
           {title}
         </h3>
         <div className="board-icon-list">
@@ -49,7 +55,7 @@ export const Board = function (card: IBoard) {
           <span className="board-icon icon-pen" onClick={() => setEditModal(true)}>
             {t('main:board:edit')}
           </span>
-          {stateID === card.owner && (
+          {data.user._id === card.owner && (
             <span className="board-icon icon-delete c-red" onClick={() => setRemoveModal(true)}>
               {t('main:board:remove')}
             </span>

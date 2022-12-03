@@ -4,12 +4,10 @@ import { ProjectTask } from './task';
 import { CreateModal } from '../../../companents/modal/create-form';
 import { useTranslation } from 'react-i18next';
 import { IColumn, ITask } from '../../../api/requests';
-import { IBoard } from '../../main/boards/board';
 
 interface IBoardCol {
   tasks?: ITask[];
   column?: IColumn;
-  board?: IBoard;
 }
 
 const colTasks = (tasks?: ITask[], column?: IColumn) => {
@@ -39,8 +37,8 @@ export const BoardCol = function (props: IBoardCol) {
       </div>
       <div className="project-col__body">
         <div className="project-col__tasks">
-          {tasks.map((e, i) => (
-            <ProjectTask key={`${i}-${new Date().getTime()}`} {...e} />
+          {tasks.map((e) => (
+            <ProjectTask key={e._id} {...e} />
           ))}
         </div>
         <button

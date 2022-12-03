@@ -9,17 +9,21 @@ import { useSelector } from 'react-redux';
 import { StateReduxInterface } from '../../../state';
 
 export interface IEditModal {
+  id: string;
   title: string;
-  description?: string;
+  description: string;
+  owner: string;
   members: string[];
   usersId: string[];
+  boardId: string;
+  columnId: string;
   control: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const EditModal = function (props: IEditModal) {
   const data = useSelector((state: StateReduxInterface) => state);
   const [title, setTitle] = useState(props.title);
-  const [desc, setDesc] = useState(props.description || '');
+  const [desc, setDesc] = useState(props.description);
   const [members, setMembers] = useState(props.members);
   const [membersID, setMembersID] = useState(props.usersId);
   const [remove, setRemove] = useState('');
@@ -55,6 +59,7 @@ export const EditModal = function (props: IEditModal) {
           />
 
           {desc && <TaskTextarea description={desc} setDescription={setDesc} />}
+
           <div className="edit-modal__members">
             <div className="edit-modal__member-list">
               {membersID.map((e, i) => (
@@ -87,7 +92,14 @@ export const EditModal = function (props: IEditModal) {
         </div>
       )}
       {removeModal && (
-        <RemoveModal name={title} id={'test'} type={'Task'} control={props.control} />
+        <RemoveModal
+          name={title}
+          id={props.id}
+          type={'Task'}
+          boardId={props.boardId}
+          columnId={props.columnId}
+          control={props.control}
+        />
       )}
     </div>
   );

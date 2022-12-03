@@ -12,6 +12,8 @@ export interface IRemoveModal {
   id: string;
   type: ModalType;
   control: React.Dispatch<React.SetStateAction<boolean>>;
+  boardId?: string;
+  columnId?: string;
 }
 
 export const RemoveModal = function (props: IRemoveModal) {
@@ -53,7 +55,14 @@ export const RemoveModal = function (props: IRemoveModal) {
     try {
       switch (props.type) {
         case 'Task':
-          await deleteTask(token, props.id);
+          const path = `boards/${props.boardId}/columns/${props.columnId}/tasks/${props.id}`;
+          await deleteTask(token, path);
+          dispatch(
+            reduxProject({
+              ...data.project,
+              tasks: data.project.tasks.filter((e) => e._id !== props.id),
+            })
+          );
           break;
         case 'Column':
           await removeColumn(props.id);

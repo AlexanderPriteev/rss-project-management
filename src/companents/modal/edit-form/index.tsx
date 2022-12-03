@@ -87,7 +87,7 @@ export const EditModal = function (props: IEditModal) {
         </div>
       )}
       {removeModal && (
-        <RemoveModal name={title} path={'test'} type={'Task'} control={props.control} />
+        <RemoveModal name={title} id={'test'} type={'Task'} control={props.control} />
       )}
     </div>
   );

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { EditModal, IEditModal } from '../../../../companents/modal/edit-form';
-import { getUsersById, ITask } from '../../../../api/requests';
+import { ITask } from '../../../../api/requests';
 
 export const ProjectTask = function (props: ITask) {
   const [modal, setModal] = useState(false);

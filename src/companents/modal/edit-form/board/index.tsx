@@ -125,7 +125,7 @@ export const EditModalBoard = function (props: IEditModal) {
         </div>
       )}
       {removeModal && (
-        <RemoveModal name={title} path={card._id} type={'Board'} control={props.control} />
+        <RemoveModal name={title} id={card._id} type={'Board'} control={props.control} />
       )}
       {alertError && <AlertModal title={alertError} setTitle={setAlertError} />}
     </div>

@@ -152,7 +152,9 @@
     "task": "Create Task",
     "column": "Create Column",
     "alert": {
-      "default": "An error occurred while loading"
+      "default": "An error occurred while loading",
+      "add": "An error occurred while creating",
+      "remove": "Произошла ошибка при удаление"
     }
   }
 }

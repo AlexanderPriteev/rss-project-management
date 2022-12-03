@@ -197,8 +197,12 @@ export const getColumnSet = async (token: string) => {
   });
 };
 
-export const updateColumnSet = async (token: string, columnId: string, order: number) => {
-  return await request(`${base}/columnsSet`, 'PATCH', JSON.stringify({ columnId, order }), {
+export interface IColumnOrder {
+  _id: string;
+  order: number;
+}
+export const updateColumnSet = async (token: string, columnsSet: IColumnOrder[]) => {
+  return await request(`${base}/columnsSet`, 'PATCH', JSON.stringify(columnsSet), {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });

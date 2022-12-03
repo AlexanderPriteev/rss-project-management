@@ -85,7 +85,7 @@ export const Board = function (card: IBoard) {
         </div>
       </div>
       {removeModal && (
-        <RemoveModalWrap name={title} path={boardId} type={'Board'} control={setRemoveModal} />
+        <RemoveModalWrap name={title} id={boardId} type={'Board'} control={setRemoveModal} />
       )}
       {editModal && <EditModalBoard card={card} control={setEditModal} />}
     </div>

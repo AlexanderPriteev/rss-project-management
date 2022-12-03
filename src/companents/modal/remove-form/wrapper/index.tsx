@@ -9,7 +9,7 @@ export const RemoveModalWrap = function (props: IRemoveModal) {
     props.control(false);
   };
   return (
-    <div className="modal-wrapper" onClick={close}>
+    <div className="modal-wrapper" onClick={() => close()}>
       <RemoveModal {...props} />
     </div>
   );

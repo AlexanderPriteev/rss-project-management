@@ -6,6 +6,7 @@ import { Link, useParams } from 'react-router-dom';
 import { IBoard } from '../main/boards/board';
 import { AlertModal } from '../../companents/alert';
 import {
+  createColumn,
   getBoardById,
   getBoardColumn,
   getBoardTaskSet,
@@ -20,6 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { reduxProject, StateReduxInterface } from '../../state';
 
 export const ProjectBoard = function () {
+  const token = localStorage.getItem('token') as string;
   const { t } = useTranslation();
   const boardId = useParams().id as string;
   const data = useSelector((state: StateReduxInterface) => state);
@@ -27,9 +29,11 @@ export const ProjectBoard = function () {
 
   const [alertError, setAlertError] = useState('');
   const [editProject, setEditProject] = useState(false);
+  const [isLoad, setIsLoad] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('token') as string;
+    if (isLoad) return;
+    setIsLoad(true);
 
     const loadBoard = async () => {
       try {
@@ -48,9 +52,11 @@ export const ProjectBoard = function () {
     };
 
     const loadTasks = async (board?: IBoard, users?: IUser[]) => {
+      console.log('testLoad');
       try {
         const curBoard = board || data.project.board;
         const columns = (await getBoardColumn(token, boardId)) as IColumn[];
+        columns.sort((a, b) => a.order - b.order);
         const tasks = (await getBoardTaskSet(token, boardId)) as ITask[];
         const allUsers = users || (await getUsers(token));
         tasks.forEach((task) => {
@@ -72,9 +78,22 @@ export const ProjectBoard = function () {
     } else if (!data.project.columns.length) {
       void loadTasks();
     }
-  }, [dispatch, boardId, data.project, t]);
+  }, [dispatch, boardId, data.project, t, isLoad, token]);
 
   useCheckUser();
+
+  const addColumn = async () => {
+    try {
+      const title = 'Backlog';
+      const order = data.project.columns.length;
+      const newColumn = await createColumn(token, boardId, title, order);
+      const columns = [...data.project.columns, newColumn];
+      dispatch(reduxProject({ ...data.project, columns: columns }));
+    } catch {
+      setAlertError(t('board:alert:add') as string);
+      setTimeout(() => setAlertError(''), 3000);
+    }
+  };
 
   return (
     <div className="project">
@@ -94,7 +113,7 @@ export const ProjectBoard = function () {
                 <BoardCol key={e._id} column={e} tasks={data.project.tasks} />
               ))}
             </div>
-            <button className="project-create icon-add" onClick={() => []}>
+            <button className="project-create icon-add" onClick={() => addColumn()}>
               {t('board:column')}
             </button>
           </div>

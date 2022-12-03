@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AlertModal } from '../../alert';
-import { deleteBoard, deleteColumnById, deleteTask } from '../../../api/requests';
+import { deleteBoard, deleteColumnById, deleteTask, updateColumnSet } from '../../../api/requests';
 import { useDispatch, useSelector } from 'react-redux';
-import { reduxBoards, StateReduxInterface } from '../../../state';
+import { reduxBoards, reduxProject, StateReduxInterface } from '../../../state';
 import { ModalType } from '../create-form';
+import { colTasks } from '../../../pages/board/column';
 
 export interface IRemoveModal {
   name: string;
-  path: string;
+  id: string;
   type: ModalType;
   control: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -16,8 +17,35 @@ export interface IRemoveModal {
 export const RemoveModal = function (props: IRemoveModal) {
   const { t } = useTranslation();
   const token = localStorage.getItem('token') as string;
-  const boards = useSelector((state: StateReduxInterface) => state.boards);
+  const data = useSelector((state: StateReduxInterface) => state);
   const dispatch = useDispatch();
+
+  const removeColumn = async (colorId: string) => {
+    try {
+      const boardId = data.project.board?._id as string;
+      const columnId = colorId;
+      const path = `boards/${boardId}/columns/${columnId}`;
+      console.log(path);
+      const tasksId = colTasks(data.project.tasks, columnId).map((e) => e._id);
+      await deleteColumnById(token, path);
+      const columns = data.project.columns
+        .filter((e) => e._id !== columnId)
+        .map((e, i) => {
+          e.order = i;
+          return e;
+        });
+
+      const tasksSet = data.project.tasks.filter((e) => !tasksId.includes(e._id));
+      dispatch(reduxProject({ ...data.project, columns: columns, tasks: tasksSet }));
+      const columnsSet = columns.map((e) => {
+        return { _id: e._id, order: e.order };
+      });
+
+      await updateColumnSet(token, columnsSet);
+    } catch {
+      setAlertError(t('remove:alert') as string);
+    }
+  };
 
   const [value, setValue] = useState('');
   const [alertError, setAlertError] = useState('');
@@ -26,14 +54,14 @@ export const RemoveModal = function (props: IRemoveModal) {
     try {
       switch (props.type) {
         case 'Task':
-          await deleteTask(token, props.path);
+          await deleteTask(token, props.id);
           break;
         case 'Column':
-          await deleteColumnById(token, props.path);
+          await removeColumn(props.id);
           break;
         case 'Board':
-          await deleteBoard(token, props.path);
-          dispatch(reduxBoards(boards.filter((e) => e._id !== props.path)));
+          await deleteBoard(token, props.id);
+          dispatch(reduxBoards(data.boards.filter((e) => e._id !== props.id)));
       }
       props.control(false);
     } catch {

@@ -268,22 +268,12 @@ export const getTaskById = async (
   );
 };
 
-export const updateTask = async (
-  token: string,
-  boardId: string,
-  columnId: string,
-  taskId: string,
-  task: ITask
-) => {
-  return await request(
-    `${base}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
-    'PUT',
-    JSON.stringify(task),
-    {
-      'Content-type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    }
-  );
+//path boards/${boardId}/columns/${columnId}/tasks/${taskId}
+export const updateTask = async (token: string, path: string, task: ITask) => {
+  return await request(`${base}/${path}`, 'PUT', JSON.stringify(task), {
+    'Content-type': 'application/json',
+    Authorization: `Bearer ${token}`,
+  });
 };
 
 //path boards/${boardId}/columns/${columnId}/tasks/${taskId}

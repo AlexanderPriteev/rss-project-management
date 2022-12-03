@@ -2,35 +2,38 @@ import React, { useEffect, useState } from 'react';
 import { LineInput } from '../../line-input';
 import { TaskMember } from './companents/member';
 import { TaskTextarea } from './companents/textarea';
-import { AddMember, IMember } from '../companents/add-member';
+import { IMember } from '../companents/add-member';
 import { RemoveModal } from '../remove-form';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import { StateReduxInterface } from '../../../state';
+import { useDispatch, useSelector } from 'react-redux';
+import { reduxProject, StateReduxInterface } from '../../../state';
+import { SelectMember } from '../companents/select-member';
+import { getMemberSet } from '../../../methods/get-member';
+import { ITask, updateTask } from '../../../api/requests';
+import { AlertModal } from '../../alert';
 
-export interface IEditModal {
-  id: string;
-  title: string;
-  description: string;
-  owner: string;
-  members: string[];
-  usersId: string[];
-  boardId: string;
-  columnId: string;
+export interface IEditModal extends ITask {
   control: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const EditModal = function (props: IEditModal) {
   const data = useSelector((state: StateReduxInterface) => state);
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
+  const selectMembersID = data.project.board?.users.filter((e) => !props.users.includes(e));
+  const selectMembersName = data.project.board?.usersName?.filter(
+    (e) => !props.usersName?.includes(e)
+  );
+
   const [title, setTitle] = useState(props.title);
   const [desc, setDesc] = useState(props.description);
-  const [members, setMembers] = useState(props.members);
-  const [membersID, setMembersID] = useState(props.usersId);
+  const [members, setMembers] = useState(props.usersName);
+  const [membersID, setMembersID] = useState(props.users);
   const [remove, setRemove] = useState('');
   const [addMember, setAddMember] = useState(false);
   const [removeModal, setRemoveModal] = useState(false);
   const [newMembers, setNewMembers] = useState([] as IMember[]);
-  const { t } = useTranslation();
+  const [alertError, setAlertError] = useState('');
 
   const body = document.body.classList;
   if (!body.contains('ov-hidden')) body.add('ov-hidden');
@@ -41,10 +44,47 @@ export const EditModal = function (props: IEditModal) {
 
   useEffect(() => {
     if (remove) {
-      setMembers(members.filter((e) => e !== remove));
+      const idInArray = membersID.indexOf(remove);
+      setMembers(members?.filter((e, i) => i !== idInArray));
+      setMembersID(membersID.filter((e, i) => i !== idInArray));
       setRemove('');
     }
-  }, [members, remove]);
+  }, [members, membersID, remove]);
+
+  const update = async () => {
+    try {
+      const token = localStorage.getItem('token') as string;
+      const membersSet = getMemberSet(membersID, members as string[]).concat(newMembers);
+      const path = `boards/${props.boardId}/columns/${props.columnId}/tasks/${props._id}`;
+      const updateData: ITask = {
+        title: title,
+        order: props.order,
+        description: desc,
+        columnId: props.columnId,
+        userId: props.userId,
+        users: membersSet.map((e) => e.id),
+      };
+      await updateTask(token, path, updateData);
+      dispatch(
+        reduxProject({
+          ...data.project,
+          tasks: data.project.tasks.map((e) => {
+            if (e._id === props._id) {
+              e.title = title;
+              e.description = desc;
+              e.users = membersSet.map((e1) => e1.id);
+              e.usersName = membersSet.map((e1) => e1.login);
+            }
+            return e;
+          }),
+        })
+      );
+      close();
+    } catch {
+      setAlertError(t('edit:alert') as string);
+      setTimeout(() => setAlertError(''), 3000);
+    }
+  };
 
   return (
     <div className="modal-wrapper" onClick={close}>
@@ -58,13 +98,16 @@ export const EditModal = function (props: IEditModal) {
             wrapperStyles={'edit-modal__title'}
           />
 
-          {desc && <TaskTextarea description={desc} setDescription={setDesc} />}
-
+          <TaskTextarea description={desc} setDescription={setDesc} />
+          <div className="modal-row">
+            <span className="modal-subtitle">{t('edit:owner')}</span>
+            <span className="modal-data">{props.owner}</span>
+          </div>
           <div className="edit-modal__members">
             <div className="edit-modal__member-list">
               {membersID.map((e, i) => (
                 <TaskMember
-                  member={members[i]}
+                  member={members ? members[i] : ''}
                   id={e}
                   userId={data.user._id as string}
                   setRemove={setRemove}
@@ -78,10 +121,19 @@ export const EditModal = function (props: IEditModal) {
               </span>
             )}
           </div>
-          {addMember && <AddMember setList={setNewMembers} />}
+
+          {addMember && (
+            <SelectMember
+              membersId={selectMembersID as string[]}
+              membersName={selectMembersName as string[]}
+              setList={setNewMembers}
+            />
+          )}
 
           <div className="edit-modal__controls">
-            <button className="edit-modal-btn icon-check">{t('edit:update')}</button>
+            <button className="edit-modal-btn icon-check" onClick={update}>
+              {t('edit:update')}
+            </button>
             <button
               className="edit-modal-btn icon-delete c-red"
               onClick={() => setRemoveModal(true)}
@@ -94,13 +146,14 @@ export const EditModal = function (props: IEditModal) {
       {removeModal && (
         <RemoveModal
           name={title}
-          id={props.id}
+          id={props._id as string}
           type={'Task'}
           boardId={props.boardId}
           columnId={props.columnId}
           control={props.control}
         />
       )}
+      {alertError && <AlertModal title={alertError} setTitle={setAlertError} />}
     </div>
   );
 };

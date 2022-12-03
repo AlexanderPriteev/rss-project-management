@@ -80,6 +80,8 @@ export const CreateModal = function (props: ICreateModal) {
           columnId: props.columnId,
         };
         dispatch(reduxProject({ ...data.project, tasks: [...data.project.tasks, updateTask] }));
+      } else {
+
       }
       close();
     } catch {

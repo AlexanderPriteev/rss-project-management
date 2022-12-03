@@ -117,7 +117,8 @@
     "add": "add member",
     "remove": "remove",
     "update": "update",
-    "alert": "Failed to update board"
+    "alert": "Failed to update board",
+    "owner": "Creator: "
   },
   "newMember":{
     "title":"Add Member:",

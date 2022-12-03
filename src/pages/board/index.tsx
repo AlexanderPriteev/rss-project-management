@@ -52,7 +52,6 @@ export const ProjectBoard = function () {
     };
 
     const loadTasks = async (board?: IBoard, users?: IUser[]) => {
-      console.log('testLoad');
       try {
         const curBoard = board || data.project.board;
         const columns = (await getBoardColumn(token, boardId)) as IColumn[];
@@ -65,7 +64,7 @@ export const ProjectBoard = function () {
             task.usersName = [...(task.usersName || []), curUser.name];
             task.usersLogin = [...(task.usersName || []), curUser.login];
           });
-          task.owner = allUsers.find((e) => e._id === task.userId)?.name;
+          task.owner = allUsers.find((e) => e._id === task.userId)?.name || 'Unknown';
         });
 
         dispatch(reduxProject({ board: curBoard, columns: columns, tasks: tasks }));

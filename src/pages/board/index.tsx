@@ -6,7 +6,6 @@ import { Link, useParams } from 'react-router-dom';
 import { IBoard } from '../main/boards/board';
 import { AlertModal } from '../../companents/alert';
 import {
-  createColumn,
   getBoardById,
   getBoardColumn,
   getBoardTaskSet,
@@ -19,6 +18,7 @@ import { EditModalBoard } from '../../companents/modal/edit-form/board';
 import { getTitle } from '../../methods/get-title';
 import { useDispatch, useSelector } from 'react-redux';
 import { reduxProject, StateReduxInterface } from '../../state';
+import { CreateModal } from '../../companents/modal/create-form';
 
 export const ProjectBoard = function () {
   const token = localStorage.getItem('token') as string;
@@ -29,6 +29,7 @@ export const ProjectBoard = function () {
 
   const [alertError, setAlertError] = useState('');
   const [editProject, setEditProject] = useState(false);
+  const [createModal, setCreateModal] = useState(false);
   const [isLoad, setIsLoad] = useState(false);
 
   useMemo(() => {
@@ -82,19 +83,6 @@ export const ProjectBoard = function () {
 
   useCheckUser();
 
-  const addColumn = async () => {
-    try {
-      const title = 'Backlog';
-      const order = data.project.columns.length;
-      const newColumn = await createColumn(token, boardId, title, order);
-      const columns = [...data.project.columns, newColumn];
-      dispatch(reduxProject({ ...data.project, columns: columns }));
-    } catch {
-      setAlertError(t('board:alert:add') as string);
-      setTimeout(() => setAlertError(''), 3000);
-    }
-  };
-
   return (
     <div className="project">
       {data.project.board && (
@@ -113,13 +101,14 @@ export const ProjectBoard = function () {
                 <BoardCol key={e._id} column={e} tasks={data.project.tasks} />
               ))}
             </div>
-            <button className="project-create icon-add" onClick={() => addColumn()}>
+            <button className="project-create icon-add" onClick={() => setCreateModal(true)}>
               {t('board:column')}
             </button>
           </div>
           {editProject && <EditModalBoard card={data.project.board} control={setEditProject} />}
         </>
       )}
+      {createModal && <CreateModal type={'Column'} control={setCreateModal} />}
       {alertError && <AlertModal title={alertError} setTitle={setAlertError} />}
     </div>
   );

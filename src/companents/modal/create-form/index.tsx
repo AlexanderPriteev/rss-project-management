@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { AddMember, IMember } from '../companents/add-member';
 import { LineInput } from '../../line-input';
 import { useTranslation } from 'react-i18next';
-import { createBoard, createTask, getColumnTasks, ITask } from '../../../api/requests';
+import {
+  createBoard,
+  createColumn,
+  createTask,
+  getColumnTasks,
+  ITask,
+} from '../../../api/requests';
 import { useDispatch, useSelector } from 'react-redux';
 import { reduxBoards, reduxProject, StateReduxInterface } from '../../../state';
 import { getDate } from '../../../methods/get-date';
@@ -24,7 +30,7 @@ export const CreateModal = function (props: ICreateModal) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState(props.type === 'Column' ? 'Backlog' : '');
   const [description, setDescription] = useState('');
   const [newMembers, setNewMembers] = useState([] as IMember[]);
   const [alertError, setAlertError] = useState('');
@@ -81,11 +87,20 @@ export const CreateModal = function (props: ICreateModal) {
         };
         dispatch(reduxProject({ ...data.project, tasks: [...data.project.tasks, updateTask] }));
       } else {
-
+        const order = data.project.columns.length;
+        const newColumn = await createColumn(
+          token,
+          data.project.board?._id as string,
+          title,
+          order
+        );
+        const columns = [...data.project.columns, newColumn];
+        dispatch(reduxProject({ ...data.project, columns: columns }));
       }
       close();
     } catch {
       setAlertError(t('create:alert') as string);
+      setTimeout(() => setAlertError(''), 3000);
     }
   };
 
@@ -100,7 +115,7 @@ export const CreateModal = function (props: ICreateModal) {
             isString={false}
             wrapperStyles={'create-modal-field'}
           />
-          {props.type === 'Task' ? (
+          {props.type === 'Task' && (
             <>
               <textarea
                 className="create-modal-area"
@@ -115,9 +130,8 @@ export const CreateModal = function (props: ICreateModal) {
                 setList={setNewMembers}
               />
             </>
-          ) : (
-            <AddMember setList={setNewMembers} />
           )}
+          {props.type === 'Board' && <AddMember setList={setNewMembers} />}
         </div>
         <div className="modal-footer">
           <button

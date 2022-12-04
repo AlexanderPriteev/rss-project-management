@@ -99,6 +99,7 @@
       "detail": ["show", "hide", "details"],
       "edit": "edit",
       "remove": "remove",
+      "exit": "leave",
       "team": "Team:",
       "date": "Date of Creation:",
       "pm": "Project Manager:",
@@ -107,7 +108,14 @@
     "task": {
       "search": "SEARCH TASK",
       "status": "status:",
-      "link": ["Go to "," board"]
+      "link": ["Go to "," board"],
+      "select": {
+        "label": "By",
+        "task": "Name",
+        "board": "Board",
+        "status": "Status",
+        "desc": "Description"
+      }
     },
     "alert": {
       "boards": "Failed to load boards"

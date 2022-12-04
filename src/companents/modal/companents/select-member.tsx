@@ -11,7 +11,6 @@ interface ISelectMember {
 
 export const SelectMember = function (props: ISelectMember) {
   const { t } = useTranslation();
-
   const [membersSet, setMembersSet] = useState(getMemberSet(props.membersId, props.membersName));
   const [members, setMembers] = useState([] as IMember[]);
   const [current, setCurrent] = useState(props.membersId[0]);

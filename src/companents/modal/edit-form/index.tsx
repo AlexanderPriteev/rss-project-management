@@ -24,6 +24,7 @@ export const EditModal = function (props: IEditModal) {
   const selectMembersName = data.project.board?.usersName?.filter(
     (e) => !props.usersName?.includes(e)
   );
+  const usersBoardCount = data.project.board?.users.length;
 
   const [title, setTitle] = useState(props.title);
   const [desc, setDesc] = useState(props.description);
@@ -103,26 +104,25 @@ export const EditModal = function (props: IEditModal) {
             <span className="modal-subtitle">{t('edit:owner')}</span>
             <span className="modal-data">{props.owner}</span>
           </div>
-          {!!props.users.length && (
-            <div className="edit-modal__members">
-              <div className="edit-modal__member-list">
-                {membersID.map((e, i) => (
-                  <TaskMember
-                    member={members ? members[i] : ''}
-                    id={e}
-                    userId={data.user._id as string}
-                    setRemove={setRemove}
-                    key={e}
-                  />
-                ))}
-              </div>
-              {!addMember && (
-                <span className="edit-modal-btn icon-add" onClick={() => setAddMember(true)}>
-                  {t('edit:add')}
-                </span>
-              )}
+
+          <div className="edit-modal__members">
+            <div className="edit-modal__member-list">
+              {membersID.map((e, i) => (
+                <TaskMember
+                  member={members ? members[i] : ''}
+                  id={e}
+                  userId={data.user._id as string}
+                  setRemove={setRemove}
+                  key={e}
+                />
+              ))}
             </div>
-          )}
+            {!addMember && !!usersBoardCount && props.users.length !== usersBoardCount && (
+              <span className="edit-modal-btn icon-add" onClick={() => setAddMember(true)}>
+                {t('edit:add')}
+              </span>
+            )}
+          </div>
 
           {addMember && (
             <SelectMember

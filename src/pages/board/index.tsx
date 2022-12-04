@@ -13,13 +13,20 @@ import {
   IColumn,
   ITask,
   IUser,
+  updateColumnSet,
 } from '../../api/requests';
 import { EditModalBoard } from '../../companents/modal/edit-form/board';
 import { getTitle } from '../../methods/get-title';
 import { useDispatch, useSelector } from 'react-redux';
 import { reduxProject, StateReduxInterface } from '../../state';
 import { CreateModal } from '../../companents/modal/create-form';
-import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+import { Container } from 'react-smooth-dnd';
+
+interface IDropColumn {
+  addedIndex: number;
+  payload: IColumn;
+  removedIndex: number;
+}
 
 export const ProjectBoard = function () {
   const token = localStorage.getItem('token') as string;
@@ -84,10 +91,29 @@ export const ProjectBoard = function () {
 
   useCheckUser();
 
-  function onDragEnd(result: DropResult) {
-    console.log(result);
-    //TODO
-  }
+  const updateColumn = async (res: IDropColumn) => {
+    try {
+      const columns = [...data.project.columns];
+      if (res.removedIndex !== null) {
+        columns.splice(res.removedIndex, 1);
+      }
+      if (res.addedIndex !== null) {
+        columns.splice(res.addedIndex, 0, res.payload);
+      }
+      const updateColumns = columns.map((e, i) => {
+        e.order = i;
+        return e;
+      });
+      const columnsSet = updateColumns.map((e) => ({ _id: e._id, order: e.order }));
+      dispatch(reduxProject({ ...data.project, columns: [...updateColumns] }));
+      await updateColumnSet(token, columnsSet);
+    } catch {
+      setAlertError(t('edit:alert') as string);
+      setTimeout(() => {
+        setAlertError('');
+      });
+    }
+  };
 
   return (
     <div className="project">
@@ -102,14 +128,22 @@ export const ProjectBoard = function () {
             </span>
           </div>
           <div className="project-wrapper">
-            <div className="project-col-list">
-              <DragDropContext onDragEnd={onDragEnd}>
-                {data.project.columns.map((e) => (
-                  <BoardCol key={e._id} column={e} tasks={data.project.tasks} />
-                ))}
-              </DragDropContext>
-            </div>
-
+            <Container
+              getChildPayload={(index) => {
+                return data.project.columns[index];
+              }}
+              onDrop={(dropResult) => {
+                void updateColumn(dropResult as IDropColumn);
+              }}
+              orientation={'horizontal'}
+              render={(ref) => (
+                <div ref={ref}>
+                  {data.project.columns.map((e) => (
+                    <BoardCol key={e._id} column={e} tasks={data.project.tasks} />
+                  ))}
+                </div>
+              )}
+            />
             <button className="project-create icon-add" onClick={() => setCreateModal(true)}>
               {t('board:column')}
             </button>

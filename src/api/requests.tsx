@@ -291,13 +291,13 @@ export const getTaskSet = async (token: string) => {
   });
 };
 
-interface ITaskSet {
-  id: string;
+export interface ITaskSet {
+  _id: string;
   order: number;
   columnId: string;
 }
-export const updateTaskSet = async (token: string, taskSet: ITaskSet) => {
-  return await request(`${base}/taskSet`, 'PATCH', JSON.stringify(taskSet), {
+export const updateTaskSet = async (token: string, taskSet: ITaskSet[]) => {
+  return await request(`${base}/tasksSet`, 'PATCH', JSON.stringify(taskSet), {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   });

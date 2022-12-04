@@ -73,7 +73,7 @@ export const CreateModal = function (props: ICreateModal) {
         const task: ITask = {
           title: title,
           order: order,
-          description: description,
+          description: description || ' ',
           userId: data.user._id as string,
           users: usersId,
         };

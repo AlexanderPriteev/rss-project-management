@@ -11,7 +11,6 @@ import { Index } from './pages/layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { StateReduxInterface } from './state';
 import { checkUser } from './api/checkAuth';
-import { QuoteApp } from './aadnd/test';
 
 function App() {
   const userId = useSelector((state: StateReduxInterface) => state.user);
@@ -25,8 +24,7 @@ function App() {
       <Routes>
         {!userId._id ? (
           <Route path="/" element={<Index />}>
-            <Route index element={<QuoteApp />} />
-            {/*<Route index element={<Welcome />} />*/}
+            <Route index element={<Welcome />} />
             <Route path="/login" element={<Login />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="*" element={<Welcome />} />

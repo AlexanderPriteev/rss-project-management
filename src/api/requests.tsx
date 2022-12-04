@@ -233,6 +233,8 @@ export interface ITask {
   users: string[];
   usersName?: string[];
   usersLogin?: string[];
+  columnName?: string;
+  boardName?: string;
 }
 
 //path boards/${boardId}/columns/${columnId}/tasks

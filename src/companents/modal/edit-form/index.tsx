@@ -103,24 +103,26 @@ export const EditModal = function (props: IEditModal) {
             <span className="modal-subtitle">{t('edit:owner')}</span>
             <span className="modal-data">{props.owner}</span>
           </div>
-          <div className="edit-modal__members">
-            <div className="edit-modal__member-list">
-              {membersID.map((e, i) => (
-                <TaskMember
-                  member={members ? members[i] : ''}
-                  id={e}
-                  userId={data.user._id as string}
-                  setRemove={setRemove}
-                  key={e}
-                />
-              ))}
+          {!!props.users.length && (
+            <div className="edit-modal__members">
+              <div className="edit-modal__member-list">
+                {membersID.map((e, i) => (
+                  <TaskMember
+                    member={members ? members[i] : ''}
+                    id={e}
+                    userId={data.user._id as string}
+                    setRemove={setRemove}
+                    key={e}
+                  />
+                ))}
+              </div>
+              {!addMember && (
+                <span className="edit-modal-btn icon-add" onClick={() => setAddMember(true)}>
+                  {t('edit:add')}
+                </span>
+              )}
             </div>
-            {!addMember && (
-              <span className="edit-modal-btn icon-add" onClick={() => setAddMember(true)}>
-                {t('edit:add')}
-              </span>
-            )}
-          </div>
+          )}
 
           {addMember && (
             <SelectMember

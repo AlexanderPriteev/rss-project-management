@@ -124,11 +124,13 @@ export const CreateModal = function (props: ICreateModal) {
                 )}`}
                 onChange={(e) => setDescription(e.target.value)}
               />
-              <SelectMember
-                membersId={data.project.board?.users as string[]}
-                membersName={data.project.board?.usersName as string[]}
-                setList={setNewMembers}
-              />
+              {!!data.project.board?.users.length && (
+                <SelectMember
+                  membersId={data.project.board?.users as string[]}
+                  membersName={data.project.board?.usersName as string[]}
+                  setList={setNewMembers}
+                />
+              )}
             </>
           )}
           {props.type === 'Board' && <AddMember setList={setNewMembers} />}

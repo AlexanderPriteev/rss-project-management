@@ -1,36 +1,25 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ITask } from '../../../../api/requests';
 
-//TODO
-export interface ICard {
-  id: string;
-  title: string;
-  status: string;
-  description: string;
-  projectId: string;
-  projectName: string;
-  members: string[];
-}
-
-export const MainCard = function (card: ICard) {
+export const MainCard = function (task: ITask) {
   const router = useNavigate();
   const { t } = useTranslation();
 
-  const [taskId, title, status, description, projectId, projectName] = Object.values(card);
   return (
-    <div className="main-card" id={taskId}>
+    <div className="main-card">
       <div className="main-card__headline">
-        <h4 className="main-card-title">{title}</h4>
+        <h4 className="main-card-title">{task.title}</h4>
         <span className="main-card-status">
-          <span className="bold">{t('main:task:status')}</span> {status}
+          <span className="bold">{t('main:task:status')}</span> {task.columnName}
         </span>
       </div>
-      <p className="main-card-about">{description}</p>
+      <p className="main-card-about">{task.description}</p>
       <span className="main-card-link icon-next-arrow">
-        <span className="main-card-link-wrapper" id={projectId} onClick={() => router(`/board`)}>
+        <span className="main-card-link-wrapper" onClick={() => router(`/board-${task.boardId}`)}>
           {t('main:task:link:0')}
-          <span className="main-card-link__name">{projectName}</span>
+          <span className="main-card-link__name">{task.boardName}</span>
           {t('main:task:link:1')}
         </span>
       </span>

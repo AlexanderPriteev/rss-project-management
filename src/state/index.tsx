@@ -6,10 +6,11 @@ import { IBoard } from '../pages/main/boards/board';
 export const USER_DATA = 'USER_DATA';
 export const BOARDS_DATA = 'BOARDS_DATA';
 export const CURRENT_BOARD = 'CURRENT_BOARD';
+export const TASKS_DATA = 'TASKS_DATA';
 
 export interface ReduxReducer {
-  type: 'USER_DATA' | 'BOARDS_DATA' | 'CURRENT_BOARD';
-  data: IUser | IBoard[] | ICurrentBoard;
+  type: 'USER_DATA' | 'BOARDS_DATA' | 'CURRENT_BOARD' | 'TASKS_DATA';
+  data: IUser | IBoard[] | ICurrentBoard | ITask[];
 }
 
 export interface ICurrentBoard {
@@ -21,6 +22,7 @@ export interface ICurrentBoard {
 export interface StateReduxInterface {
   user: IUser;
   boards: IBoard[];
+  tasks: ITask[];
   project: ICurrentBoard;
 }
 
@@ -32,6 +34,7 @@ export const stateRedux: StateReduxInterface = {
     password: '',
   },
   boards: [],
+  tasks: [],
   project: {
     board: null,
     columns: [],
@@ -47,6 +50,8 @@ const reducer = (state: StateReduxInterface = stateRedux, action: ReduxReducer) 
       return { ...state, project: action.data as ICurrentBoard };
     case BOARDS_DATA:
       return { ...state, boards: action.data as IBoard[] };
+    case TASKS_DATA:
+      return { ...state, tasks: action.data as ITask[] };
     default:
       return state;
   }
@@ -67,4 +72,9 @@ export const reduxProject = (project: ICurrentBoard): ReduxReducer => ({
 export const reduxBoards = (boards: IBoard[]): ReduxReducer => ({
   type: BOARDS_DATA,
   data: boards,
+});
+
+export const reduxTasks = (tasks: ITask[]): ReduxReducer => ({
+  type: TASKS_DATA,
+  data: tasks,
 });

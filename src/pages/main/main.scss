@@ -120,6 +120,7 @@
         align-items: center;
         height: 1.4rem;
         width: 2rem;
+        min-width: 2rem;
         font-size: 2rem;
       }
       &-wrapper{
@@ -164,7 +165,8 @@
   }
 
   &__head {
-    padding: 1.6rem 0;
+    padding: 1.6rem .5rem;
+    box-sizing: border-box;
   }
 
   &__body {

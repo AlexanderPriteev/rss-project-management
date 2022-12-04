@@ -1,20 +1,13 @@
-import React from 'react';
-import { MainCard } from './task';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-const tpmTask = {
-  id: '124',
-  title: 'Task1',
-  status: 'Backlog',
-  description:
-    ' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vestibulum pulvinar tincidunt. Maecenas et ipsum tempor, finibus odio sit amet, maximus tortor.',
-  projectId: '01',
-  projectName: 'PROJECT1',
-  members: ['Cameron Williamson', 'Cameron Williamson'],
-};
+import { useSelector } from 'react-redux';
+import { StateReduxInterface } from '../../../state';
+import { MainCard } from './task';
 
 export const MainTasks = function () {
   const { t } = useTranslation();
+  const tasks = useSelector((state: StateReduxInterface) => state.tasks);
+
   return (
     <div className="main-tasks">
       <div className="main-search">
@@ -26,11 +19,9 @@ export const MainTasks = function () {
         />
       </div>
       <div className="main-card-list">
-        <MainCard {...tpmTask} />
-        <MainCard {...tpmTask} />
-        <MainCard {...tpmTask} />
-        <MainCard {...tpmTask} />
-        <MainCard {...tpmTask} />
+        {tasks.map((e) => (
+          <MainCard key={e._id} {...e} />
+        ))}
       </div>
     </div>
   );

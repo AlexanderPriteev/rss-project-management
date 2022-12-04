@@ -135,6 +135,7 @@ export const ProjectBoard = function () {
               onDrop={(dropResult) => {
                 void updateColumn(dropResult as IDropColumn);
               }}
+              nonDragAreaSelector={'.line-input__field'}
               orientation={'horizontal'}
               render={(ref) => (
                 <div ref={ref}>

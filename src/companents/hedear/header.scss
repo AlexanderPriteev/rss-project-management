@@ -10,6 +10,9 @@
   top: 0;
   z-index: 3;
   transition: padding .2s linear;
+  @media (max-width: 1279px) {
+    padding: 2rem 1rem;
+  }
   &.move{
     padding-top: 1rem;
     padding-bottom: 1rem;

@@ -4,6 +4,11 @@
   display: flex;
   gap: 4rem;
   margin: auto;
+  @media (max-width: 1279px) {
+    flex-direction: column;
+    max-width: 63rem;
+    width: 100%;
+  }
   &-col{
     &__about{
       display: flex;
@@ -13,6 +18,9 @@
       justify-content: center;
       gap: 3.2rem;
       width: 62.6rem;
+      @media (max-width: 1279px) {
+        width: 100%;
+      }
     }
     &__image{
       flex-grow: 1;
@@ -23,13 +31,22 @@
   }
   &-title{
     font-size: $headline-1;
+    @media (max-width: 1279px) {
+      font-size: 2.4rem;
+    }
   }
   &-about{
     font-size: $headline-4;
     line-height: 1.5;
+    @media (max-width: 1279px) {
+      font-size: 1.6rem;
+    }
   }
   &-next{
     font-size: $headline-3;
+    @media (max-width: 1279px) {
+      font-size: 1.6rem;
+    }
   }
   &-image{
     width: 100%;
@@ -37,5 +54,8 @@
   &-copyright{
     text-align: right;
     font-size: $body-1;
+    @media (max-width: 1279px) {
+      font-size: 1.4rem;
+    }
   }
 }

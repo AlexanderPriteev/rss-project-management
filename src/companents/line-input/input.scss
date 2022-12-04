@@ -6,12 +6,20 @@
   line-height: 1;
   width: 100%;
   position: relative;
+  @media (max-width: 767px) {
+    flex-direction: column;
+    gap: .8rem;
+  }
+
 
   &-label {
     font-size: 2.4rem;
     display: inline-block;
     font-weight: $f-bold;
     white-space: nowrap;
+    @media (max-width: 767px) {
+     font-size: 1.8rem;
+    }
   }
 
   &__field {
@@ -23,6 +31,10 @@
     border-bottom: .1rem solid $primary-700;
     box-sizing: border-box;
     padding: 0 9rem .6rem 0;
+    @media (max-width: 767px) {
+      padding-right: 0;
+      font-size: 1.6rem;
+    }
     background-color: transparent;
     line-height: 1;
     &:read-only {
@@ -32,6 +44,9 @@
     &-wrapper {
       flex-grow: 1;
       overflow: hidden;
+      @media (max-width: 767px) {
+        width: 100%;
+      }
     }
   }
 
@@ -45,6 +60,10 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     line-height: 1.25;
+    @media (max-width: 767px) {
+      padding-right: 0;
+      font-size: 1.6rem;
+    }
   }
 
   &__btn {

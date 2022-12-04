@@ -21,4 +21,7 @@ body{
   flex-direction: column;
   box-sizing: border-box;
   padding: 3.2rem 2.4rem;
+  @media (max-width: 767px) {
+    padding: 3rem 1rem;
+  }
 }

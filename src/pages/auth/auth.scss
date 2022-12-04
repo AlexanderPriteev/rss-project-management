@@ -6,12 +6,18 @@
   align-items: center;
   gap: 4.2rem;
   margin: auto;
+  @media (max-width: 990px) {
+    max-width: 45rem;
+  }
   &__col{
     &-form{
       flex-grow: 1;
     }
     &-image{
       flex-grow: 1;
+      @media (max-width: 990px) {
+        display: none;
+      }
     }
   }
   &-form{

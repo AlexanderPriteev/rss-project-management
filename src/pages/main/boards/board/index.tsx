@@ -33,6 +33,7 @@ export const Board = function (card: IBoard) {
   const [hide, setHide] = useState(true);
   const [editModal, setEditModal] = useState(false);
   const [removeModal, setRemoveModal] = useState(false);
+  const [leaveModal, setLeaveModal] = useState(false);
 
   const boardLink = () => {
     dispatch(reduxProject({ board: card, tasks: [], columns: [] }));
@@ -55,9 +56,16 @@ export const Board = function (card: IBoard) {
           <span className="board-icon icon-pen" onClick={() => setEditModal(true)}>
             {t('main:board:edit')}
           </span>
-          {data.user._id === card.owner && (
+          {data.user._id === card.owner ? (
             <span className="board-icon icon-delete c-red" onClick={() => setRemoveModal(true)}>
               {t('main:board:remove')}
+            </span>
+          ) : (
+            <span
+              className="board-icon icon-logout-outlined c-red"
+              onClick={() => setLeaveModal(true)}
+            >
+              {t('main:board:exit')}
             </span>
           )}
         </div>
@@ -86,6 +94,9 @@ export const Board = function (card: IBoard) {
       </div>
       {removeModal && (
         <RemoveModalWrap name={title} id={boardId} type={'Board'} control={setRemoveModal} />
+      )}
+      {leaveModal && (
+        <RemoveModalWrap name={title} id={boardId} type={'Board-Leave'} control={setLeaveModal} />
       )}
       {editModal && <EditModalBoard card={card} control={setEditModal} />}
     </div>

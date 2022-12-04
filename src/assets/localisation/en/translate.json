@@ -96,10 +96,10 @@
     "title": "Boards",
     "create": "Create New Board",
     "board": {
-      "detail": ["show", "hide", "details"],
+      "detail": ["", "", "details"],
       "edit": "edit",
       "remove": "remove",
-      "exit": "leave",
+      "exit": "leave ",
       "team": "Team:",
       "date": "Date of Creation:",
       "pm": "Project Manager:",
@@ -144,9 +144,11 @@
   "remove": {
     "title": "Are you absolutely sure?",
     "subtitle": "This action cannot be undone. This will permanently delete the",
+    "leave": "This action cannot be undone. You will leave the",
     "about": ["Please type ", " to confirm."],
     "placeholder": "Type",
     "btn": "Remove",
+    "btn-leave": "Leave",
     "alert": "Failed to delete"
   },
   "create": {

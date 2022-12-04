@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AlertModal } from '../../alert';
-import { deleteBoard, deleteColumnById, deleteTask, updateColumnSet } from '../../../api/requests';
+import {
+  deleteBoard,
+  deleteColumnById,
+  deleteTask,
+  updateBoard,
+  updateColumnSet,
+} from '../../../api/requests';
 import { useDispatch, useSelector } from 'react-redux';
 import { reduxBoards, reduxProject, StateReduxInterface } from '../../../state';
 import { ModalType } from '../create-form';
 import { colTasks } from '../../../pages/board/column';
+import { IBoard } from '../../../pages/main/boards/board';
 
 export interface IRemoveModal {
   name: string;
@@ -67,6 +74,17 @@ export const RemoveModal = function (props: IRemoveModal) {
         case 'Column':
           await removeColumn(props.id);
           break;
+        case 'Board-Leave':
+          const boardUser = data.boards.find((e) => e._id === props.id) as IBoard;
+          await updateBoard(
+            token,
+            boardUser._id,
+            boardUser.title,
+            boardUser.owner,
+            boardUser.users.filter((e) => e !== data.user._id)
+          );
+          dispatch(reduxBoards(data.boards.filter((e) => e._id !== props.id)));
+          break;
         case 'Board':
           await deleteBoard(token, props.id);
           dispatch(reduxBoards(data.boards.filter((e) => e._id !== props.id)));
@@ -74,6 +92,7 @@ export const RemoveModal = function (props: IRemoveModal) {
       props.control(false);
     } catch {
       setAlertError(t('remove:alert') as string);
+      setTimeout(() => setAlertError(''), 3000);
     }
   };
 
@@ -82,7 +101,7 @@ export const RemoveModal = function (props: IRemoveModal) {
       <div className="modal-body">
         <h2 className="remove-modal-title">{t('remove:title')}</h2>
         <p className="remove-modal-subtitle">
-          {t('remove:subtitle')} {props.name}.
+          {t(`remove:${props.type === 'Board-Leave' ? 'leave' : 'subtitle'}`)} {props.name}.
         </p>
         <p className="remove-modal-about">
           {t('remove:about:0')}
@@ -101,7 +120,7 @@ export const RemoveModal = function (props: IRemoveModal) {
           className={`modal-btn bg-red${value !== props.name ? ' disabled' : ''}`}
           onClick={() => remove()}
         >
-          {t('remove:btn')}
+          {t(`remove:${props.type === 'Board-Leave' ? 'btn-leave' : 'btn'}`)}
         </button>
       </div>
       {alertError && <AlertModal title={alertError} setTitle={setAlertError} />}

@@ -16,7 +16,7 @@ import { AlertModal } from '../../alert';
 import { IBoard } from '../../../pages/main/boards/board';
 import { SelectMember } from '../companents/select-member';
 
-export type ModalType = 'Task' | 'Board' | 'Column';
+export type ModalType = 'Task' | 'Board' | 'Column' | 'Board-Leave';
 interface ICreateModal {
   type: ModalType;
   link?: string;

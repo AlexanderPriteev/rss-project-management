@@ -7,6 +7,8 @@ import { IColumn, ITask, updateColumn } from '../../../api/requests';
 import { RemoveModalWrap } from '../../../companents/modal/remove-form/wrapper';
 import { AlertModal } from '../../../companents/alert';
 
+import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+
 interface IBoardCol {
   tasks: ITask[];
   column: IColumn;
@@ -43,42 +45,51 @@ export const BoardCol = function (props: IBoardCol) {
   const { t } = useTranslation();
 
   return (
-    <div className="project-col">
-      <div className="project-col__head">
-        <LineInput
-          hasIcons={true}
-          isReadOnly={true}
-          defValue={name}
-          setValue={setName}
-          wrapperStyles={'project-col__title'}
-        />
-        <i className="project-remove icon-delete" onClick={() => setRemoveModal(true)} />
-      </div>
-      <div className="project-col__body">
-        <div className="project-col__tasks">
-          {tasks.map((e) => (
-            <ProjectTask key={e._id} {...e} />
-          ))}
+    <Droppable droppableId={props.column._id}>
+      {(provided) => (
+        <div className="project-col">
+          <div className="project-col__head">
+            <LineInput
+              hasIcons={true}
+              isReadOnly={true}
+              defValue={name}
+              setValue={setName}
+              wrapperStyles={'project-col__title'}
+            />
+            <i className="project-remove icon-delete" onClick={() => setRemoveModal(true)} />
+          </div>
+          <div className="project-col__body">
+            <div
+              className="project-col__tasks"
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {tasks.map((e, i) => (
+                <ProjectTask key={e._id} task={e} index={i} />
+              ))}
+              {provided.placeholder}
+            </div>
+            <button
+              className="project-create project-create--task icon-add"
+              onClick={() => setCreateModal(true)}
+            >
+              {t('board:task')}
+            </button>
+          </div>
+          {createModal && (
+            <CreateModal type={'Task'} control={setCreateModal} columnId={props.column._id} />
+          )}
+          {removeModal && (
+            <RemoveModalWrap
+              type={'Column'}
+              id={props.column._id}
+              name={props.column.title}
+              control={setRemoveModal}
+            />
+          )}
+          {alertError && <AlertModal title={alertError} setTitle={setAlertError} />}
         </div>
-        <button
-          className="project-create project-create--task icon-add"
-          onClick={() => setCreateModal(true)}
-        >
-          {t('board:task')}
-        </button>
-      </div>
-      {createModal && (
-        <CreateModal type={'Task'} control={setCreateModal} columnId={props.column._id} />
       )}
-      {removeModal && (
-        <RemoveModalWrap
-          type={'Column'}
-          id={props.column._id}
-          name={props.column.title}
-          control={setRemoveModal}
-        />
-      )}
-      {alertError && <AlertModal title={alertError} setTitle={setAlertError} />}
-    </div>
+    </Droppable>
   );
 };

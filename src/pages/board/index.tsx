@@ -19,6 +19,7 @@ import { getTitle } from '../../methods/get-title';
 import { useDispatch, useSelector } from 'react-redux';
 import { reduxProject, StateReduxInterface } from '../../state';
 import { CreateModal } from '../../companents/modal/create-form';
+import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 
 export const ProjectBoard = function () {
   const token = localStorage.getItem('token') as string;
@@ -83,6 +84,11 @@ export const ProjectBoard = function () {
 
   useCheckUser();
 
+  function onDragEnd(result: DropResult) {
+    console.log(result);
+    //TODO
+  }
+
   return (
     <div className="project">
       {data.project.board && (
@@ -97,10 +103,13 @@ export const ProjectBoard = function () {
           </div>
           <div className="project-wrapper">
             <div className="project-col-list">
-              {data.project.columns.map((e) => (
-                <BoardCol key={e._id} column={e} tasks={data.project.tasks} />
-              ))}
+              <DragDropContext onDragEnd={onDragEnd}>
+                {data.project.columns.map((e) => (
+                  <BoardCol key={e._id} column={e} tasks={data.project.tasks} />
+                ))}
+              </DragDropContext>
             </div>
+
             <button className="project-create icon-add" onClick={() => setCreateModal(true)}>
               {t('board:column')}
             </button>

@@ -18,12 +18,14 @@ export const Login = function () {
   const [alert, setAlert] = useState('');
   const [alertMail, setAlertMail] = useState('');
   const [alertPass, setAlertPass] = useState('');
+  const [preloader, setPreloader] = useState('');
 
   const sigIn = async () => {
     const validateLogin = !!login.length;
     const validatePass = !!pass.length;
     if (validateLogin && validatePass) {
       try {
+        setPreloader(' spinner-btn');
         const { token } = await userSignIn(login, pass);
         localStorage.setItem('token', token);
         const user = (await getUsers(token)).find((e) => e.login === login) as IUser;
@@ -42,6 +44,7 @@ export const Login = function () {
             setAlert(t('login:alert:db') as string);
         }
         setTimeout(() => setAlert(''), 3000);
+        setPreloader('');
       }
     }
   };
@@ -66,7 +69,7 @@ export const Login = function () {
             />
           </div>
           <div className="auth-form-wrapper">
-            <button className="auth-btn" onClick={() => sigIn()}>
+            <button className={`auth-btn${preloader}`} onClick={() => sigIn()}>
               {t('login:btns:login')}
             </button>
             <button className="auth-btn auth-btn--outline" onClick={() => router(`/sign-up`)}>

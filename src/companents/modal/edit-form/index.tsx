@@ -35,6 +35,7 @@ export const EditModal = function (props: IEditModal) {
   const [removeModal, setRemoveModal] = useState(false);
   const [newMembers, setNewMembers] = useState([] as IMember[]);
   const [alertError, setAlertError] = useState('');
+  const [preloader, setPreloader] = useState('');
 
   const body = document.body.classList;
   if (!body.contains('ov-hidden')) body.add('ov-hidden');
@@ -54,6 +55,7 @@ export const EditModal = function (props: IEditModal) {
 
   const update = async () => {
     try {
+      setPreloader(' spinner-btn spinner-btn--dark');
       const token = localStorage.getItem('token') as string;
       const membersSet = getMemberSet(membersID, members as string[]).concat(newMembers);
       const path = `boards/${props.boardId}/columns/${props.columnId}/tasks/${props._id}`;
@@ -80,6 +82,7 @@ export const EditModal = function (props: IEditModal) {
           }),
         })
       );
+      setPreloader('');
       close();
     } catch {
       setAlertError(t('edit:alert') as string);
@@ -133,7 +136,7 @@ export const EditModal = function (props: IEditModal) {
           )}
 
           <div className="edit-modal__controls">
-            <button className="edit-modal-btn icon-check" onClick={update}>
+            <button className={`edit-modal-btn icon-check${preloader}`} onClick={update}>
               {t('edit:update')}
             </button>
             <button

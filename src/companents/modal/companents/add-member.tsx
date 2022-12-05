@@ -25,6 +25,7 @@ export const AddMember = function (props: IAddMember) {
   const [usersList, setUserList] = useState([] as IUser[]);
 
   const [alertError, setAlertError] = useState('');
+  const [preloader, setPreloader] = useState('');
 
   const add = async () => {
     if (user.login === current) {
@@ -33,6 +34,7 @@ export const AddMember = function (props: IAddMember) {
       setAlertError(t('newMember:alert:added') as string);
     } else {
       try {
+        setPreloader(' spinner-btn spinner-btn--dark');
         let users = [...usersList];
         if (!usersList.length) {
           users = await getUsers(token);
@@ -57,6 +59,7 @@ export const AddMember = function (props: IAddMember) {
       } catch {
         setAlertError(t('newMember:alert:error') as string);
       }
+      setPreloader('');
     }
 
     setTimeout(() => setAlertError(''), 3000);
@@ -98,7 +101,7 @@ export const AddMember = function (props: IAddMember) {
               onChange={(e) => setCurrent(e.target.value)}
             />
           </div>
-          <button className="edit-modal-btn icon-add" onClick={add}>
+          <button className={`edit-modal-btn icon-add${preloader}`} onClick={add}>
             {t('newMember:add')}
           </button>
         </div>

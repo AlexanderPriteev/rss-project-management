@@ -39,6 +39,7 @@ export const ProjectBoard = function () {
   const [editProject, setEditProject] = useState(false);
   const [createModal, setCreateModal] = useState(false);
   const [isLoad, setIsLoad] = useState(false);
+  const [preloader, setPreloader] = useState('');
 
   useMemo(() => {
     if (isLoad) return;
@@ -46,6 +47,7 @@ export const ProjectBoard = function () {
 
     const loadBoard = async () => {
       try {
+        setPreloader(' spinner-page');
         const loadBoard = (await getBoardById(token, boardId)) as IBoard;
         const allUsers = await getUsers(token);
         loadBoard.ownerName = allUsers.find((e) => e._id === loadBoard.owner)?._id;
@@ -58,10 +60,12 @@ export const ProjectBoard = function () {
         setAlertError(t('board:alert:default') as string);
         setTimeout(() => setAlertError(''), 3000);
       }
+      setPreloader('');
     };
 
     const loadTasks = async (board?: IBoard, users?: IUser[]) => {
       try {
+        setPreloader(' spinner-page');
         const curBoard = board || data.project.board;
         const columns = (await getBoardColumn(token, boardId)) as IColumn[];
         columns.sort((a, b) => a.order - b.order);
@@ -81,6 +85,7 @@ export const ProjectBoard = function () {
         setAlertError(t('board:alert:default') as string);
         setTimeout(() => setAlertError(''), 3000);
       }
+      setPreloader('');
     };
     if (!data.project.board) {
       void loadBoard();
@@ -116,7 +121,7 @@ export const ProjectBoard = function () {
   };
 
   return (
-    <div className="project">
+    <div className={`project${preloader}`}>
       {data.project.board && (
         <>
           <div className="project__headline">

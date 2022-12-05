@@ -18,6 +18,7 @@ export const EditProfile = function () {
 
   const [alertSuccess, setAlertSuccess] = useState('');
   const [alertError, setAlertError] = useState('');
+  const [preloader, setPreloader] = useState('');
 
   const updateProfile = async () => {
     if (!name) {
@@ -27,6 +28,7 @@ export const EditProfile = function () {
       setEmail(user.login);
     }
     try {
+      setPreloader(' spinner-btn');
       await userSignIn(user.login, pass);
       await updateUser(user._id as string, { name: name, login: email, password: pass }, token);
       dispatch(reduxUser({ ...user, name: name, login: email, password: pass }));
@@ -42,6 +44,7 @@ export const EditProfile = function () {
       }
       setTimeout(() => setAlertError(''), 3000);
     }
+    setPreloader('');
   };
   return (
     <div className="profile-list">
@@ -73,7 +76,9 @@ export const EditProfile = function () {
             />
           </div>
           <button
-            className={`profile-list-submit bg-primary${pass.length < 7 ? ' disabled' : ''} `}
+            className={`profile-list-submit bg-primary${
+              pass.length < 7 ? ' disabled' : ''
+            }${preloader}`}
             onClick={() => updateProfile()}
           >
             {t('profile:submit')}

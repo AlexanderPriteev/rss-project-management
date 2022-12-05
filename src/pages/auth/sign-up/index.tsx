@@ -23,6 +23,7 @@ export const SignUp = function () {
   const [alertMail, setAlertMail] = useState('');
   const [alertPass, setAlertPass] = useState('');
   const [alertRepeat, setAlertRepeat] = useState('');
+  const [preloader, setPreloader] = useState('');
 
   const signUp = async () => {
     const validateName = name.length > 3;
@@ -33,6 +34,7 @@ export const SignUp = function () {
 
     if (validate) {
       try {
+        setPreloader(' spinner-btn');
         await userSignUp(name, mail, pass);
         const { token } = await userSignIn(mail, pass);
         localStorage.setItem('token', token);
@@ -50,18 +52,19 @@ export const SignUp = function () {
             setAlert(t('signup:alert:db') as string);
         }
         setTimeout(() => setAlert(''), 3000);
+        setPreloader('');
       }
     } else {
       if (!validateName) {
         setAlertName(t('signup:alert:name') as string);
       }
-      if (!validateName) {
+      if (!validateMail) {
         setAlertMail(t('signup:alert:mail') as string);
       }
-      if (!validateName) {
+      if (!validatePass) {
         setAlertPass(t('signup:alert:pass') as string);
       }
-      if (!validateName) {
+      if (!validateRepeat) {
         setAlertRepeat(t('signup:alert:repeat') as string);
       }
     }
@@ -99,7 +102,7 @@ export const SignUp = function () {
             />
           </div>
           <div className="auth-form-wrapper">
-            <button className="auth-btn" onClick={() => signUp()}>
+            <button className={`auth-btn${preloader}`} onClick={() => signUp()}>
               {t('signup:btns:signup')}
             </button>
             <button className="auth-btn auth-btn--outline" onClick={() => router(`/login`)}>

@@ -35,6 +35,7 @@ export const EditModalBoard = function (props: IEditModal) {
   const [newMembers, setNewMembers] = useState([] as IMember[]);
   const [removeModal, setRemoveModal] = useState(false);
   const [alertError, setAlertError] = useState('');
+  const [preloader, setPreloader] = useState('');
 
   const { t } = useTranslation();
 
@@ -64,6 +65,7 @@ export const EditModalBoard = function (props: IEditModal) {
     dispatch(reduxBoards(data.boards.map((e) => (e._id === updatedCart._id ? updatedCart : e))));
 
     try {
+      setPreloader(' spinner-btn spinner-btn--dark');
       await updateBoard(
         token,
         updatedCart._id,
@@ -75,6 +77,7 @@ export const EditModalBoard = function (props: IEditModal) {
       setAlertError(t('edit:alert') as string);
       setTimeout(() => setAlertError(''), 3000);
     }
+    setPreloader('');
     close();
   };
 
@@ -112,7 +115,7 @@ export const EditModalBoard = function (props: IEditModal) {
           {addMember && <AddMember setList={setNewMembers} membersId={membersID} />}
 
           <div className="edit-modal__controls">
-            <button className="edit-modal-btn icon-check" onClick={() => update()}>
+            <button className={`edit-modal-btn icon-check${preloader}`} onClick={() => update()}>
               {t('edit:update')}
             </button>
             <button

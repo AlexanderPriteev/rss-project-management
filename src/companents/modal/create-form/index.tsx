@@ -34,6 +34,7 @@ export const CreateModal = function (props: ICreateModal) {
   const [description, setDescription] = useState('');
   const [newMembers, setNewMembers] = useState([] as IMember[]);
   const [alertError, setAlertError] = useState('');
+  const [preloader, setPreloader] = useState('');
   const type = t(`create:type:${+(props.type !== 'Task')}`);
 
   const body = document.body.classList;
@@ -46,6 +47,7 @@ export const CreateModal = function (props: ICreateModal) {
 
   const create = async () => {
     try {
+      setPreloader(' spinner-btn');
       if (props.type === 'Board') {
         const users = newMembers.map((e) => e.id);
         const usersName = newMembers.map((e) => e.name || e.login);
@@ -102,6 +104,7 @@ export const CreateModal = function (props: ICreateModal) {
       setAlertError(t('create:alert') as string);
       setTimeout(() => setAlertError(''), 3000);
     }
+    setPreloader('');
   };
 
   return (
@@ -137,7 +140,7 @@ export const CreateModal = function (props: ICreateModal) {
         </div>
         <div className="modal-footer">
           <button
-            className={`modal-btn${!title.length ? ' disabled' : ''}`}
+            className={`modal-btn${!title.length ? ' disabled' : ''}${preloader}`}
             onClick={() => create()}
           >
             {t('create:btn')}

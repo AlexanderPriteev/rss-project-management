@@ -23,6 +23,7 @@ export const Main = function () {
   const token = localStorage.getItem('token') as string;
   const [alertError, setAlertError] = useState('');
   const [isLoad, setIsLoad] = useState(false);
+  const [preloader, setPreloader] = useState('');
 
   useMemo(() => {
     if (isLoad) return;
@@ -30,11 +31,13 @@ export const Main = function () {
 
     const userBoards = async () => {
       try {
+        setPreloader(' spinner-page');
         const boards = (await getUserBoards(token, data.user._id as string)) as IBoard[];
         const allUsers = (await getUsers(token)) as IUser[];
         const promiseTasks: Promise<ITask[]>[] = [];
         const promiseColumn: Promise<ITask[]>[] = [];
         dispatch(reduxBoards([...boards]));
+        setPreloader('');
         for (const board of boards) {
           promiseColumn.push(getBoardColumn(token, board._id));
           promiseTasks.push(getBoardTaskSet(token, board._id));
@@ -67,7 +70,7 @@ export const Main = function () {
   }, [t, token, data.user._id, dispatch, isLoad]);
   useCheckUser();
   return (
-    <div className="main">
+    <div className={`main${preloader}`}>
       <MainBoards />
       <MainTasks />
       {alertError && <AlertModal title={alertError} setTitle={setAlertError} />}

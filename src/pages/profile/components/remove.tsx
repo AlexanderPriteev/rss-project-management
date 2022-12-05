@@ -17,14 +17,17 @@ export const RemoveAccount = function () {
 
   const [pass, setPass] = useState('');
   const [hideMenu, setHideMenu] = useState(true);
+  const [preloader, setPreloader] = useState('');
 
   const [alertError, setAlertError] = useState('');
   const removeProfile = async () => {
     try {
+      setPreloader(' spinner-btn');
       await userSignIn(user.login, pass);
-      await deleteUser(user._id as string, token);
+      const id = user._id as string;
       userLogOut(dispatch);
       router('/');
+      await deleteUser(id, token);
     } catch (e) {
       switch ((e as Error).message) {
         case '401':
@@ -35,6 +38,7 @@ export const RemoveAccount = function () {
       }
       setTimeout(() => setAlertError(''), 3000);
     }
+    setPreloader('');
   };
 
   return (
@@ -57,7 +61,7 @@ export const RemoveAccount = function () {
           />
         </div>
         <button
-          className={`profile-list-submit bg-red${pass.length < 7 ? ' disabled' : ''} `}
+          className={`profile-list-submit bg-red${pass.length < 7 ? ' disabled' : ''}${preloader}`}
           onClick={() => removeProfile()}
         >
           {t('profile:remove:btn')}

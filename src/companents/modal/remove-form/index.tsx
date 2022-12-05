@@ -28,6 +28,7 @@ export const RemoveModal = function (props: IRemoveModal) {
   const token = localStorage.getItem('token') as string;
   const data = useSelector((state: StateReduxInterface) => state);
   const dispatch = useDispatch();
+  const [preloader, setPreloader] = useState('');
 
   const [value, setValue] = useState('');
   const [alertError, setAlertError] = useState('');
@@ -60,6 +61,7 @@ export const RemoveModal = function (props: IRemoveModal) {
 
   const remove = async () => {
     try {
+      setPreloader(' spinner-btn');
       switch (props.type) {
         case 'Task':
           const path = `boards/${props.boardId}/columns/${props.columnId}/tasks/${props.id}`;
@@ -94,6 +96,7 @@ export const RemoveModal = function (props: IRemoveModal) {
       setAlertError(t('remove:alert') as string);
       setTimeout(() => setAlertError(''), 3000);
     }
+    setPreloader('');
   };
 
   return (
@@ -117,7 +120,7 @@ export const RemoveModal = function (props: IRemoveModal) {
       </div>
       <div className="modal-footer">
         <button
-          className={`modal-btn bg-red${value !== props.name ? ' disabled' : ''}`}
+          className={`modal-btn bg-red${value !== props.name ? ' disabled' : ''}${preloader}`}
           onClick={() => remove()}
         >
           {t(`remove:${props.type === 'Board-Leave' ? 'btn-leave' : 'btn'}`)}

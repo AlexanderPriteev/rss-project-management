@@ -19,9 +19,11 @@ export const EditPassword = function () {
 
   const [alertSuccess, setAlertSuccess] = useState('');
   const [alertError, setAlertError] = useState('');
+  const [preloader, setPreloader] = useState('');
 
   const updatePass = async () => {
     try {
+      setPreloader(' spinner-btn');
       await userSignIn(user.login, curPass);
       await updateUser(
         user._id as string,
@@ -41,6 +43,7 @@ export const EditPassword = function () {
       }
       setTimeout(() => setAlertError(''), 3000);
     }
+    setPreloader('');
   };
   return (
     <div className="profile-list">
@@ -84,7 +87,7 @@ export const EditPassword = function () {
         <button
           className={`profile-list-submit bg-primary${
             newPass === repeatPass && newPass.length > 6 && curPass.length > 6 ? '' : ' disabled'
-          }`}
+          }${preloader}`}
           onClick={() => updatePass()}
         >
           {t('profile:edit:btn')}

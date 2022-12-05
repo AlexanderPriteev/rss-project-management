@@ -1,0 +1,52 @@
+.create-modal{
+  width: 100%;
+  max-width: 62rem;
+  background-color: $white;
+  &__body{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    min-height: 26rem;
+  }
+  &-field{
+    .line-input{
+      &-label{
+        font-size: 2rem;
+        @media (max-width: 767px) {
+          font-size: 1.6rem;
+        }
+      }
+      &__field{
+        font-size: 1.8rem;
+        padding-bottom: .2rem;
+        padding-right: 0;
+        @media (max-width: 767px) {
+          font-size: 1.4rem;
+        }
+      }
+    }
+  }
+  &-area{
+    font-size: 1.6rem;
+    color: $txt-black;
+    line-height: 1.4;
+    background-color: $primary-50;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    padding: 1.2rem 1.5rem;
+    width: 100%;
+    height: 10.5rem;
+    resize: none;
+    &::placeholder{
+      opacity: .6;
+    }
+    &::-webkit-scrollbar {
+      width: .6rem;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $primary-100;
+      border-radius: .4rem;
+    }
+  }
+}

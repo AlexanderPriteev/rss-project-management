@@ -1,0 +1,295 @@
+.project {
+  display: flex;
+  flex-direction: column;
+  gap: 2.6rem;
+  flex-grow: 1;
+  @media (max-width: 767px) {
+    gap: 1.5rem;
+  }
+
+  &__headline {
+    border-bottom: .1rem solid $primary-800;
+    padding: 0 0 1.2rem;
+    box-sizing: border-box;
+    display: flex;
+    gap: 4rem;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &-title {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    cursor: pointer;
+    transition: opacity .2s linear;
+    text-decoration: none;
+    &:hover {
+      opacity: .8;
+    }
+
+    &:before {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 3.2rem;
+      height: 3.2rem;
+      min-width: 3.2rem;
+      font-size: 3.2rem;
+      @media (max-width: 1279px) {
+        width: 2.6rem;
+        height: 2.6rem;
+        min-width: 2.6rem;
+        font-size: 2.6rem;
+      }
+      @media (max-width: 767px) {
+        width: 2rem;
+        height: 2rem;
+        min-width: 2rem;
+        font-size: 2rem;
+      }
+    }
+
+    &__text {
+      line-height: 1;
+      font-size: 2.4rem;
+      font-weight: $f-bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      @media (max-width: 1279px) {
+        font-size: 2rem;
+      }
+      @media (max-width: 767px) {
+        font-size: 1.8rem;
+      }
+    }
+  }
+
+  &-board-edit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .8rem;
+    transition: opacity .2s linear;
+    font-size: 2rem;
+    cursor: pointer;
+    @media (max-width: 1279px) {
+      font-size: 1.8rem;
+    }
+    @media (max-width: 767px) {
+      font-size: 1.6rem;
+    }
+
+    &:before {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.4rem;
+      height: 2.4rem;
+      min-width: 2.4rem;
+      font-size: 2.4rem;
+      @media (max-width: 1279px) {
+        width: 2.2rem;
+        height: 2.2rem;
+        min-width: 2.2rem;
+        font-size: 2.2rem;
+      }
+      @media (max-width: 767px) {
+        width: 2rem;
+        height: 2rem;
+        min-width: 2rem;
+        font-size: 2rem;
+      }
+    }
+
+    &:hover {
+      opacity: .8;
+    }
+  }
+
+  &-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-grow: 1;
+    overflow: auto;
+    &::-webkit-scrollbar {
+      height: .6rem;
+      @media (max-width: 767px) {
+        height: 1.6rem;
+      }
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $primary-100;
+      border-radius: .4rem;
+      @media (max-width: 767px) {
+        border-radius: .8rem;
+      }
+    }
+
+    & > .smooth-dnd-container.horizontal{
+      display: flex;
+      gap: 1rem;
+      min-width: auto;
+    }
+  }
+
+  &-col {
+    min-width: 24rem;
+    width: 24rem;
+    background-color: $primary-50;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 28.5rem);
+    @media (max-width: 767px) {
+      height: calc(100vh - 35rem)
+    }
+    &-list {
+      display: flex;
+      gap: 2rem;
+    }
+
+    &__head {
+      background-color: $primary-100;
+      box-sizing: border-box;
+      padding: 1rem;
+      display: flex;
+      gap: .6rem;
+    }
+
+    &__title {
+      max-width: calc(100% - 2.6rem);
+      .line-input {
+        &__field, &__text {
+          padding: .2rem 5.4rem .2rem .2rem;
+          font-weight: $f-bold;
+          font-size: 1.4rem;
+          border: none;
+          height: 2.2rem;
+        }
+
+        &__field {
+          background-color: $primary-50;
+        }
+
+        &__text {
+          padding-right: 2.5rem;
+        }
+
+        &__btn {
+          width: 2rem;
+          height: 2rem;
+          min-width: 2rem;
+          font-size: 2rem;
+
+          &-list {
+            gap: .8rem;
+          }
+
+        }
+      }
+    }
+
+    &__body {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      flex-grow: 1;
+      overflow: hidden;
+    }
+    &__tasks{
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      gap: .4rem;
+      box-sizing: border-box;
+      padding: .8rem .6rem 0;
+      overflow: auto;
+      &::-webkit-scrollbar {
+        width: .6rem;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: $primary-100;
+        border-radius: .4rem;
+      }
+      .smooth-dnd-container{
+        display: flex;
+        flex-direction: column;
+        gap: .4rem;
+        min-height: auto;
+        flex-grow: 1;
+      }
+    }
+  }
+
+  &-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    min-width: 2rem;
+    font-size: 2rem;
+    transition: opacity .2s linear;
+    color: $c-alert;
+
+    &:hover {
+      opacity: .8;
+    }
+  }
+
+  &-create {
+    cursor: pointer;
+    width: 24rem;
+    min-width: 24rem;
+    height: 4.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $primary-700;
+    outline: none;
+    border: none;
+    color: $white;
+    font-size: 1.5rem;
+    gap: .8rem;
+    transition: background-color .2s linear;
+
+    &:hover {
+      background-color: $primary-500;
+    }
+
+    &:before {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      min-width: 2rem;
+      font-size: 2rem;
+    }
+    &--task{
+      background-color: $primary-500;
+      &:hover {
+        background-color: $primary-700;
+      }
+    }
+  }
+
+  &-task {
+    font-size: 1.4rem;
+    box-sizing: border-box;
+    padding: 1rem;
+    border: .1rem solid $primary-200;
+    background-color: $white;
+    cursor: pointer;
+  }
+}
+
+.smooth-dnd-ghost .project-col{
+  box-shadow: 0 0 12px 1px rgba(0, 0, 0, .15);
+}

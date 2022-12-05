@@ -1,0 +1,139 @@
+.auth{
+  width: 100%;
+  max-width: 122rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4.2rem;
+  margin: auto;
+  @media (max-width: 990px) {
+    max-width: 45rem;
+  }
+  &__col{
+    &-form{
+      flex-grow: 1;
+    }
+    &-image{
+      flex-grow: 1;
+      @media (max-width: 990px) {
+        display: none;
+      }
+    }
+  }
+  &-form{
+    max-width: 40rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
+    &-wrapper{
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    &-title{
+      text-transform: uppercase;
+      font-weight: $f-normal;
+      color: $primary-700;
+      font-size: 2.8rem;
+      text-align: center;
+    }
+  }
+
+  &-input{
+    position: relative;
+    width: 100%;
+    &__field{
+      display: block;
+      width: 100%;
+      background-color: transparent;
+      height: 5.4rem;
+      border: none;
+      border-bottom: .1rem solid $primary-700;
+      color: $primary-700;
+      font-size: 1.6rem;
+      outline: none;
+      box-sizing: border-box;
+      padding: 1.4rem 3.6rem 0 0;
+      &[placeholder=" "]:not(:focus):placeholder-shown ~ .auth-input__label{
+        top: 2.5rem;
+        font-size: 1.6rem;
+      }
+      &--alert{
+        border-color: $c-alert;
+      }
+    }
+    &__label{
+      top: 0;
+      display: inline-block;
+      font-size: 1.4rem;
+      pointer-events: none;
+      line-height: 1;
+      color: $primary-700;
+      position: absolute;
+      left: 0;
+      transition: font-size .2s linear, top .2s linear;
+    }
+    &__alert{
+      position: absolute;
+      left: 0;
+      top: calc(100% + .2rem);
+      width: 100%;
+      color: $c-alert;
+      font-size: 1.4rem;
+      overflow: hidden;
+      display: block;
+      text-overflow: ellipsis;
+      text-align: right;
+      white-space: nowrap;
+    }
+    &__icon{
+      width: 2.4rem;
+      height: 2.4rem;
+      font-size: 2.4rem;
+      color: $primary-100;
+      pointer-events: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      right: 0;
+      top: 2rem;
+      &--pass{
+        pointer-events: auto;
+        cursor: pointer;
+        transition: color .2s linear;
+        &:hover{
+          color: $primary-700;
+        }
+      }
+    }
+
+  }
+  &-btn{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border: .1rem solid $primary-700;
+    outline: none;
+    box-shadow: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    letter-spacing: .02em;
+    min-height: 3.6rem;
+    color: $white;
+    background-color: $primary-700;
+    transition: background-color .25s linear;
+    &:hover{
+      background-color: $primary-300;
+    }
+    &--outline{
+      color: $primary-700;
+      font-weight: $f-bold;
+      background-color: transparent;
+    }
+  }
+}

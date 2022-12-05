@@ -1,0 +1,171 @@
+{
+  "header": {
+    "auth": {
+      "login": "LOGIN",
+      "signup": "SIGN UP"
+    },
+    "newBoard": "Create New Board",
+    "user": {
+      "projects": "My Projects",
+      "profile": "Profile",
+      "logout": "Log Out"
+    }
+  },
+  "footer": {
+    "create": "CREATED IN 2022"
+  },
+  "welcome": {
+    "title": "Welcome to RSPM!",
+    "about": "RSPM is a collaborative project management application that allows you to distribute tasks within a team and control the process of their implementation.",
+    "controls": [
+      "To get started, please",
+      "LOGIN",
+      "or",
+      "SIGN UP"
+    ],
+    "author": [
+      "developed by",
+      "Alexander",
+      "in 2022"
+    ]
+  },
+  "login": {
+    "title": "Login",
+    "placeholder": [
+      "Email",
+      "Password"
+    ],
+    "btns": {
+      "login": "LOGIN",
+      "signup": "SIGN UP"
+    },
+    "alert": {
+      "field": "The field cannot be empty",
+      "user": "Incorrect e-mail or password",
+      "db": "Failed to enter"
+    }
+  },
+  "signup": {
+    "title": "Sign Up",
+    "placeholder": [
+      "Name",
+      "Email",
+      "Password",
+      "Repeat Password"
+    ],
+    "btns": {
+      "login": "LOGIN",
+      "signup": "SIGN UP"
+    },
+    "alert": {
+      "name": "Should be longer than 3 symbols",
+      "mail": "Type e-mail",
+      "changeEmail": "Change e-mail",
+      "pass": "Should be longer than 6 symbols",
+      "repeat": "Passwords must match",
+      "user": "The user already exists",
+      "db": "Failed to register the user"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "name": "Name:",
+    "email": "Email:",
+    "submit": "Update Profile",
+    "pass": "Current Password:",
+    "alert": {
+      "success": "Profile updated successfully",
+      "successPass": "Password updated successfully",
+      "error": "Failed to update profile",
+      "errorPass": "Invalid password"
+    },
+    "edit": {
+      "title": "Edit Password",
+      "new": "New Password:",
+      "repeat": "Repeat Password:",
+      "current": "Current Password:",
+      "btn": "UPDATE PASSWORD"
+    },
+    "remove":{
+      "title": "Delete Profile",
+      "pass": "Password:",
+      "btn": "DELETE ACCOUNT"
+    }
+  },
+  "main": {
+    "title": "Boards",
+    "create": "Create New Board",
+    "board": {
+      "detail": ["", "", "details"],
+      "edit": "edit",
+      "remove": "remove",
+      "exit": "leave ",
+      "team": "Team:",
+      "date": "Date of Creation:",
+      "pm": "Project Manager:",
+      "count": "Count of Task:"
+    },
+    "task": {
+      "search": "SEARCH TASK",
+      "status": "status:",
+      "link": ["Go to "," board"],
+      "select": {
+        "label": "By",
+        "task": "Name",
+        "board": "Board",
+        "status": "Status",
+        "desc": "Description"
+      }
+    },
+    "alert": {
+      "boards": "Failed to load boards"
+    }
+  },
+  "edit": {
+    "add": "add member",
+    "remove": "remove",
+    "update": "update",
+    "alert": "Failed to update board",
+    "owner": "Creator: "
+  },
+  "newMember":{
+    "title":"Add Member:",
+    "add": "add",
+    "remove": "remove",
+    "placeholder": "Type Email",
+    "alert": {
+      "you": "You are a member by default",
+      "member": "Member already on the team",
+      "added": "This member has already been added",
+      "none": "This member not found in the system",
+      "error": "This member could not be added"
+    }
+  },
+  "remove": {
+    "title": "Are you absolutely sure?",
+    "subtitle": "This action cannot be undone. This will permanently delete the",
+    "leave": "This action cannot be undone. You will leave the",
+    "about": ["Please type ", " to confirm."],
+    "placeholder": "Type",
+    "btn": "Remove",
+    "btn-leave": "Leave",
+    "alert": "Failed to delete"
+  },
+  "create": {
+    "type": ["Task", "Board"],
+    "name": "Name",
+    "placeholder": ["Type ", " descriptions"],
+    "btn": "Create ",
+    "alert": "Failed to create. Try again."
+  },
+  "board": {
+    "project": "details / edit",
+    "task": "Create Task",
+    "column": "Create Column",
+    "alert": {
+      "default": "An error occurred while loading",
+      "add": "An error occurred while creating",
+      "remove": "Произошла ошибка при удаление"
+    }
+  }
+}

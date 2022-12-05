@@ -1,0 +1,56 @@
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+.center{
+  text-align: center;
+}
+
+.ov-hidden{
+  overflow: hidden;
+}
+
+.bold{
+  font-weight: $f-bold;
+}
+.normal{
+  font-weight: $f-normal;
+}
+.uppercase{
+  text-transform: uppercase;
+}
+.underline{
+  text-decoration: underline;
+}
+.g{
+  &-2d5{
+    gap: 2.5rem;
+  }
+}
+
+.c{
+  &-red{
+    color: $c-alert;
+  }
+  &-green{
+    color: $c-success;
+  }
+  &-primary{
+    color: $primary-700;
+  }
+}
+
+.bg{
+  &-primary{
+    background-color: $primary-700;
+  }
+  &-red{
+    background-color: $c-alert;
+  }
+  &-green{
+    background-color: $c-success;
+  }
+}

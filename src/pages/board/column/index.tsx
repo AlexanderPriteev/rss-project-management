@@ -64,7 +64,7 @@ export const BoardCol = function (props: IBoardCol) {
         if (e._id === res.payload._id) {
           e.order = -1;
         }
-        if (e.order > res.removedIndex) {
+        if (e.order > res.removedIndex && e.columnId === props.column._id) {
           e.order -= 1;
         }
         return e;

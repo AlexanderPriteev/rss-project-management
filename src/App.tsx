@@ -32,6 +32,7 @@ function App() {
         ) : (
           <Route path="/" element={<Index />}>
             <Route path="/profile" element={<Profile />} />
+            <Route path="/welcome" element={<Welcome />} />
             <Route index element={<Main />} />
             <Route path="/board-:id" element={<ProjectBoard />} />
             <Route path="*" element={<Main />} />

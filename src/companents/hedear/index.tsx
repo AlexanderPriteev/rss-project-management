@@ -4,7 +4,7 @@ import { MenuNewProject } from './menus/new-project';
 import { MenuUser } from './menus/user-menu';
 import { MenuLang } from './menus/lang-menu';
 import { MenuAuth } from './menus/auth-menu';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const USER_MENU = 'USER_MENU';
 const NEW_PROJECT = 'NEW_PROJECT';
@@ -37,6 +37,7 @@ const currentMenu = (setMenu: React.Dispatch<React.SetStateAction<HeaderMenu>>) 
 };
 
 export const Header = function () {
+  const router = useNavigate();
   const localLang = (localStorage.getItem('i18nextLng') || 'EN').toUpperCase() as CurrentLanguage;
   const location = useLocation().pathname;
   const [menu, setMenu] = useState(null as HeaderMenu);
@@ -60,7 +61,7 @@ export const Header = function () {
   return (
     <header className={`header ${headerMove}`}>
       <div className="header-logo">
-        <MainLogo className="image image--contain" />
+        <MainLogo className="image image--contain" onClick={() => router(`/welcome`)} />
       </div>
       <nav className="header-nav-list">
         <span className="header-nav" id="lang">

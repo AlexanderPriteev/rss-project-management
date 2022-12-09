@@ -70,6 +70,7 @@ export const ProjectBoard = function () {
         const columns = (await getBoardColumn(token, boardId)) as IColumn[];
         columns.sort((a, b) => a.order - b.order);
         const tasks = (await getBoardTaskSet(token, boardId)) as ITask[];
+        tasks.sort((a, b) => a.order - b.order);
         const allUsers = users || (await getUsers(token));
         tasks.forEach((task) => {
           task.users.forEach((user) => {

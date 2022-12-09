@@ -6,7 +6,7 @@ import { RemoveModal } from '../../remove-form';
 import { useTranslation } from 'react-i18next';
 import { IBoard } from '../../../../pages/main/boards/board';
 import { useDispatch, useSelector } from 'react-redux';
-import { reduxBoards, StateReduxInterface } from '../../../../state';
+import { reduxBoards, reduxProject, StateReduxInterface } from '../../../../state';
 import { AlertModal } from '../../../alert';
 import { updateBoard } from '../../../../api/requests';
 
@@ -63,7 +63,14 @@ export const EditModalBoard = function (props: IEditModal) {
       title: `${card.title.split(' - ')[0]} - ${title}`,
     };
     dispatch(reduxBoards(data.boards.map((e) => (e._id === updatedCart._id ? updatedCart : e))));
-
+    if (data.project.board) {
+      dispatch(
+        reduxProject({
+          ...data.project,
+          board: { ...data.project.board, title: updatedCart.title },
+        })
+      );
+    }
     try {
       setPreloader(' spinner-btn spinner-btn--dark');
       await updateBoard(
